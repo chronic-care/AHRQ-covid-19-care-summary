@@ -1,0 +1,2942 @@
+{
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      } ],
+      "identifier" : {
+         "id" : "Factors_to_Consider_in_Managing_COVID_19_FHIRv400",
+         "version" : "1.0.0"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "4.0.0"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "C3F",
+            "path" : "CDS_Connect_Commons_for_FHIRv400",
+            "version" : "1.0.1"
+         }, {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "4.0.0"
+         } ]
+      },
+      "parameters" : {
+         "def" : [ {
+            "name" : "InclusionMedicationsLookbackPeriod",
+            "accessLevel" : "Public",
+            "default" : {
+               "value" : 180,
+               "unit" : "days",
+               "type" : "Quantity"
+            }
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "LOINC",
+            "id" : "http://loinc.org",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "SNOMED-CT",
+            "id" : "http://snomed.info/sct",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "RxNorm",
+            "id" : "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "LOCAL",
+            "id" : "http://cds.ahrq.gov/cdsconnect/ccs",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "2019 Novel Coronavirus COVID 19",
+            "id" : "2.16.840.1.113762.1.4.1114.7",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "COVID 19 signs and symptoms",
+            "id" : "2.16.840.1.113762.1.4.1181.51",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diagnosis of Hypertension",
+            "id" : "2.16.840.1.113883.3.600.263",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Diabetes",
+            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Kidney Failure",
+            "id" : "2.16.840.1.113883.3.464.1003.109.12.1028",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests",
+            "id" : "2.16.840.1.113762.1.4.1032.109",
+            "version" : "urn:hl7:version:20200417",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "COVID19 Lab Tests",
+            "id" : "2.16.840.1.113762.1.4.1223.14",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Vital Sign Result Type",
+            "id" : "2.16.840.1.113883.3.88.12.80.62",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "codes" : {
+         "def" : [ {
+            "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code",
+            "id" : "94534-5",
+            "display" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "Covid-19 Medications code",
+            "id" : "979093",
+            "display" : "Hydroxychloroquine Sulfate 200 MG [Plaquenil]",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "RxNorm"
+            }
+         }, {
+            "name" : "Non pharmacologic treatments for Covid-19 code",
+            "id" : "371907003",
+            "display" : "Oxygen administration by nasal cannula (procedure)",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "SNOMED-CT"
+            }
+         } ]
+      },
+      "concepts" : {
+         "def" : [ {
+            "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen",
+            "display" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code"
+            } ]
+         }, {
+            "name" : "Covid-19 Medications",
+            "display" : "Covid-19 Medications",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Covid-19 Medications code"
+            } ]
+         }, {
+            "name" : "Non pharmacologic treatments for Covid-19",
+            "display" : "Non pharmacologic treatments for Covid-19",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Non pharmacologic treatments for Covid-19 code"
+            } ]
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "ConceptText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "path" : "text",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "c",
+                        "type" : "OperandRef"
+                     }
+                  }
+               }, {
+                  "type" : "Coalesce",
+                  "operand" : [ {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "c2",
+                        "expression" : {
+                           "path" : "coding",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "display",
+                              "scope" : "c2",
+                              "type" : "Property"
+                           }
+                        }
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "c",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}CodeableConcept",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "DateText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "ToString",
+               "operand" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "name" : "d",
+                     "type" : "OperandRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "d",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}date",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "DateTimeText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "ToString",
+               "operand" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "name" : "d",
+                     "type" : "OperandRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "d",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}dateTime",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "InstantText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "ToString",
+               "operand" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "name" : "i",
+                     "type" : "OperandRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "i",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}instant",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "QuantityText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "q",
+                        "type" : "OperandRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  }
+               },
+               "else" : {
+                  "type" : "If",
+                  "condition" : {
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
+                     "operand" : {
+                        "type" : "And",
+                        "operand" : [ {
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "IsNull",
+                              "operand" : {
+                                 "path" : "unit",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "q",
+                                    "type" : "OperandRef"
+                                 }
+                              }
+                           }
+                        }, {
+                           "type" : "Not",
+                           "operand" : {
+                              "type" : "Equal",
+                              "operand" : [ {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "unit",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "q",
+                                       "type" : "OperandRef"
+                                    }
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : "{score}",
+                                 "type" : "Literal"
+                              } ]
+                           }
+                        } ]
+                     }
+                  },
+                  "then" : {
+                     "type" : "Concatenate",
+                     "operand" : [ {
+                        "type" : "Concatenate",
+                        "operand" : [ {
+                           "type" : "ToString",
+                           "operand" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "q",
+                                    "type" : "OperandRef"
+                                 }
+                              }
+                           }
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : " ",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "unit",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "q",
+                              "type" : "OperandRef"
+                           }
+                        }
+                     } ]
+                  },
+                  "else" : {
+                     "type" : "If",
+                     "condition" : {
+                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "And",
+                           "operand" : [ {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "path" : "code",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "q",
+                                       "type" : "OperandRef"
+                                    }
+                                 }
+                              }
+                           }, {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "code",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "q",
+                                          "type" : "OperandRef"
+                                       }
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "{score}",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           } ]
+                        }
+                     },
+                     "then" : {
+                        "type" : "Concatenate",
+                        "operand" : [ {
+                           "type" : "Concatenate",
+                           "operand" : [ {
+                              "type" : "ToString",
+                              "operand" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "q",
+                                       "type" : "OperandRef"
+                                    }
+                                 }
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : " ",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "q",
+                                 "type" : "OperandRef"
+                              }
+                           }
+                        } ]
+                     },
+                     "else" : {
+                        "type" : "ToString",
+                        "operand" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "q",
+                                 "type" : "OperandRef"
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "q",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Quantity",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "PeriodObject",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "p",
+                        "type" : "OperandRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "TupleTypeSpecifier",
+                     "element" : [ {
+                        "name" : "Start",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "End",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }
+               },
+               "else" : {
+                  "type" : "Tuple",
+                  "element" : [ {
+                     "name" : "Start",
+                     "value" : {
+                        "name" : "DateTimeText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "p",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  }, {
+                     "name" : "End",
+                     "value" : {
+                        "name" : "DateTimeText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "end",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "p",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "p",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Period",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "RangeObject",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "r",
+                        "type" : "OperandRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "TupleTypeSpecifier",
+                     "element" : [ {
+                        "name" : "Low",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "High",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }
+               },
+               "else" : {
+                  "type" : "Tuple",
+                  "element" : [ {
+                     "name" : "Low",
+                     "value" : {
+                        "name" : "QuantityText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "low",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "r",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  }, {
+                     "name" : "High",
+                     "value" : {
+                        "name" : "QuantityText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "high",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "r",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "r",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Range",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "ObservationDate",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "name" : "DateTimeText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "strict" : false,
+                     "type" : "As",
+                     "operand" : {
+                        "path" : "effective",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "o",
+                           "type" : "OperandRef"
+                        }
+                     },
+                     "asTypeSpecifier" : {
+                        "name" : "{http://hl7.org/fhir}dateTime",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  } ]
+               }, {
+                  "name" : "InstantText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "strict" : false,
+                     "type" : "As",
+                     "operand" : {
+                        "path" : "effective",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "o",
+                           "type" : "OperandRef"
+                        }
+                     },
+                     "asTypeSpecifier" : {
+                        "name" : "{http://hl7.org/fhir}instant",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  } ]
+               }, {
+                  "name" : "DateTimeText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "path" : "start",
+                     "type" : "Property",
+                     "source" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "effective",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "o",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Period",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               }, {
+                  "name" : "InstantText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "path" : "issued",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "o",
+                        "type" : "OperandRef"
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "o",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Observation",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "MedicationStatementDate",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "name" : "DateTimeText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "strict" : false,
+                     "type" : "As",
+                     "operand" : {
+                        "path" : "effective",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "s",
+                           "type" : "OperandRef"
+                        }
+                     },
+                     "asTypeSpecifier" : {
+                        "name" : "{http://hl7.org/fhir}dateTime",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  } ]
+               }, {
+                  "name" : "DateTimeText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "path" : "start",
+                     "type" : "Property",
+                     "source" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "effective",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "s",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Period",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "s",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}MedicationStatement",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Onset",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "type" : "List",
+                  "element" : [ {
+                     "name" : "DateTimeText",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}dateTime",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "QuantityText",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Age",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "PeriodObject",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Period",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "RangeObject",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Range",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}string",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "c",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Condition",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Abatement",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "type" : "List",
+                  "element" : [ {
+                     "name" : "DateTimeText",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "abatement",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}dateTime",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "QuantityText",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "abatement",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Age",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "PeriodObject",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "abatement",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Period",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "RangeObject",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "abatement",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Range",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "abatement",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}string",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "c",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Condition",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Is18orOlder",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "precision" : "Year",
+                  "type" : "CalculateAge",
+                  "operand" : {
+                     "path" : "birthDate.value",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Patient",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "18",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "SignsAndSymptomsOfCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Confirmed",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ActiveOrRecurring",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "COVID 19 signs and symptoms",
+                        "type" : "ValueSetRef"
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "HasSignsAndSymptomsOfCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Exists",
+               "operand" : {
+                  "name" : "SignsAndSymptomsOfCovid19",
+                  "type" : "ExpressionRef"
+               }
+            }
+         }, {
+            "name" : "ReportSignsAndSymptomsOfCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "name" : "SignsAndSymptomsOfCovid19",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Status",
+                        "value" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "type" : "Indexer",
+                                 "operand" : [ {
+                                    "path" : "coding",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "clinicalStatus",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "0",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Onset",
+                        "value" : {
+                           "name" : "Onset",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "C",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }, {
+                        "name" : "DateRecorded",
+                        "value" : {
+                           "name" : "DateTimeText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "recordedDate",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "name" : "Onset",
+                           "type" : "IdentifierRef"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "HypertensionConditions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Confirmed",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ActiveOrRecurring",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diagnosis of Hypertension",
+                        "type" : "ValueSetRef"
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "DiabetesConditions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Confirmed",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ActiveOrRecurring",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Diabetes",
+                        "type" : "ValueSetRef"
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "RenalDysfunctionConditions",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Confirmed",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ActiveOrRecurring",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Condition",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Kidney Failure",
+                        "type" : "ValueSetRef"
+                     }
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "Is65orOlder",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "GreaterOrEqual",
+               "operand" : [ {
+                  "precision" : "Year",
+                  "type" : "CalculateAge",
+                  "operand" : {
+                     "path" : "birthDate.value",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Patient",
+                        "type" : "ExpressionRef"
+                     }
+                  }
+               }, {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                  "value" : "65",
+                  "type" : "Literal"
+               } ]
+            }
+         }, {
+            "name" : "ConditionRiskFactorsForCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "type" : "Union",
+                  "operand" : [ {
+                     "name" : "HypertensionConditions",
+                     "type" : "ExpressionRef"
+                  }, {
+                     "name" : "DiabetesConditions",
+                     "type" : "ExpressionRef"
+                  } ]
+               }, {
+                  "name" : "RenalDysfunctionConditions",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "EncounterRiskFactorsForCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "E",
+                  "expression" : {
+                     "dataType" : "{http://hl7.org/fhir}Encounter",
+                     "type" : "Retrieve"
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Exists",
+                  "operand" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "R",
+                        "expression" : {
+                           "path" : "reasonCode",
+                           "scope" : "E",
+                           "type" : "Property"
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Or",
+                        "operand" : [ {
+                           "type" : "Or",
+                           "operand" : [ {
+                              "type" : "InValueSet",
+                              "code" : {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "name" : "R",
+                                    "type" : "AliasRef"
+                                 } ]
+                              },
+                              "valueset" : {
+                                 "name" : "Diagnosis of Hypertension"
+                              }
+                           }, {
+                              "type" : "InValueSet",
+                              "code" : {
+                                 "name" : "ToConcept",
+                                 "libraryName" : "FHIRHelpers",
+                                 "type" : "FunctionRef",
+                                 "operand" : [ {
+                                    "name" : "R",
+                                    "type" : "AliasRef"
+                                 } ]
+                              },
+                              "valueset" : {
+                                 "name" : "Diabetes"
+                              }
+                           } ]
+                        }, {
+                           "type" : "InValueSet",
+                           "code" : {
+                              "name" : "ToConcept",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "R",
+                                 "type" : "AliasRef"
+                              } ]
+                           },
+                           "valueset" : {
+                              "name" : "Kidney Failure"
+                           }
+                        } ]
+                     }
+                  }
+               }
+            }
+         }, {
+            "name" : "ReportConditionRiskFactorsForCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "name" : "ConditionRiskFactorsForCovid19",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Status",
+                        "value" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "code",
+                              "type" : "Property",
+                              "source" : {
+                                 "type" : "Indexer",
+                                 "operand" : [ {
+                                    "path" : "coding",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "clinicalStatus",
+                                       "scope" : "C",
+                                       "type" : "Property"
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}Integer",
+                                    "value" : "0",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Onset",
+                        "value" : {
+                           "name" : "Onset",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "C",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }, {
+                        "name" : "DateRecorded",
+                        "value" : {
+                           "name" : "DateTimeText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "recordedDate",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Abatement",
+                        "value" : {
+                           "name" : "Abatement",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "C",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Visit",
+                        "value" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Null"
+                           },
+                           "asTypeSpecifier" : {
+                              "type" : "TupleTypeSpecifier",
+                              "element" : [ {
+                                 "name" : "Start",
+                                 "elementType" : {
+                                    "name" : "{urn:hl7-org:elm-types:r1}String",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              }, {
+                                 "name" : "End",
+                                 "elementType" : {
+                                    "name" : "{urn:hl7-org:elm-types:r1}String",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           }
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "name" : "Onset",
+                           "type" : "IdentifierRef"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  }, {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "name" : "Abatement",
+                           "type" : "IdentifierRef"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "GetEncounterDiagnosesRiskFactorsForCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "R",
+                  "expression" : {
+                     "path" : "reasonCode",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "enc",
+                        "type" : "OperandRef"
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "type" : "Or",
+                  "operand" : [ {
+                     "type" : "Or",
+                     "operand" : [ {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "R",
+                              "type" : "AliasRef"
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Diagnosis of Hypertension"
+                        }
+                     }, {
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "R",
+                              "type" : "AliasRef"
+                           } ]
+                        },
+                        "valueset" : {
+                           "name" : "Diabetes"
+                        }
+                     } ]
+                  }, {
+                     "type" : "InValueSet",
+                     "code" : {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "R",
+                           "type" : "AliasRef"
+                        } ]
+                     },
+                     "valueset" : {
+                        "name" : "Kidney Failure"
+                     }
+                  } ]
+               },
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "R",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Status",
+                        "value" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Null"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        }
+                     }, {
+                        "name" : "Onset",
+                        "value" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Null"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        }
+                     }, {
+                        "name" : "DateRecorded",
+                        "value" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Null"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        }
+                     }, {
+                        "name" : "Abatement",
+                        "value" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Null"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        }
+                     }, {
+                        "name" : "Visit",
+                        "value" : {
+                           "name" : "PeriodObject",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "period",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "enc",
+                                 "type" : "OperandRef"
+                              }
+                           } ]
+                        }
+                     } ]
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "enc",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Encounter",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "ReportEncounterRiskFactorsForCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "D",
+                  "expression" : {
+                     "type" : "Flatten",
+                     "operand" : {
+                        "type" : "Query",
+                        "source" : [ {
+                           "alias" : "E",
+                           "expression" : {
+                              "name" : "EncounterRiskFactorsForCovid19",
+                              "type" : "ExpressionRef"
+                           }
+                        } ],
+                        "relationship" : [ ],
+                        "return" : {
+                           "expression" : {
+                              "name" : "GetEncounterDiagnosesRiskFactorsForCovid19",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "E",
+                                 "type" : "AliasRef"
+                              } ]
+                           }
+                        }
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "path" : "Start",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Visit",
+                           "type" : "IdentifierRef"
+                        }
+                     }
+                  }, {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "path" : "End",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Visit",
+                           "type" : "IdentifierRef"
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportOlderThan65",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "name" : "Is65orOlder",
+                     "type" : "ExpressionRef"
+                  }
+               },
+               "then" : {
+                  "type" : "Tuple",
+                  "element" : [ {
+                     "name" : "Name",
+                     "value" : {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "65 years or older",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "name" : "Status",
+                     "value" : {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : "active",
+                        "type" : "Literal"
+                     }
+                  }, {
+                     "name" : "Onset",
+                     "value" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "Null"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  }, {
+                     "name" : "DateRecorded",
+                     "value" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "Null"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  }, {
+                     "name" : "Abatement",
+                     "value" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "Null"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  }, {
+                     "name" : "Visit",
+                     "value" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "Null"
+                        },
+                        "asTypeSpecifier" : {
+                           "type" : "TupleTypeSpecifier",
+                           "element" : [ {
+                              "name" : "Start",
+                              "elementType" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}String",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           }, {
+                              "name" : "End",
+                              "elementType" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}String",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }
+                  } ]
+               },
+               "else" : {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "TupleTypeSpecifier",
+                     "element" : [ {
+                        "name" : "Name",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "Status",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "Onset",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "DateRecorded",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "Abatement",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "Visit",
+                        "type" : {
+                           "type" : "TupleTypeSpecifier",
+                           "element" : [ {
+                              "name" : "Start",
+                              "type" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}String",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           }, {
+                              "name" : "End",
+                              "type" : {
+                                 "name" : "{urn:hl7-org:elm-types:r1}String",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     } ]
+                  }
+               }
+            }
+         }, {
+            "name" : "ReportRiskFactorsForCovid19",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "C",
+                  "expression" : {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "name" : "ReportConditionRiskFactorsForCovid19",
+                           "type" : "ExpressionRef"
+                        }, {
+                           "name" : "ReportEncounterRiskFactorsForCovid19",
+                           "type" : "ExpressionRef"
+                        } ]
+                     }, {
+                        "type" : "ToList",
+                        "operand" : {
+                           "name" : "ReportOlderThan65",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "type" : "If",
+                        "condition" : {
+                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "name" : "Onset",
+                                    "type" : "IdentifierRef"
+                                 }
+                              }
+                           }
+                        },
+                        "then" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "name" : "Onset",
+                              "type" : "IdentifierRef"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        },
+                        "else" : {
+                           "path" : "Start",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "Visit",
+                              "type" : "IdentifierRef"
+                           }
+                        }
+                     }
+                  }, {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "path" : "End",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Visit",
+                           "type" : "IdentifierRef"
+                        }
+                     }
+                  }, {
+                     "direction" : "desc",
+                     "type" : "ByExpression",
+                     "expression" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "name" : "Abatement",
+                           "type" : "IdentifierRef"
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               }
+            }
+         }, {
+            "name" : "LabResultAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Verified",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ObservationLookBack",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests",
+                              "type" : "ValueSetRef"
+                           }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "COVID19 Lab Tests",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
+                     }, {
+                        "dataType" : "{http://hl7.org/fhir}Observation",
+                        "codeProperty" : "code",
+                        "type" : "Retrieve",
+                        "codes" : {
+                           "path" : "codes",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen",
+                              "type" : "ConceptRef"
+                           }
+                        }
+                     } ]
+                  }, {
+                     "value" : 1,
+                     "unit" : "years",
+                     "type" : "Quantity"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "VitalSignAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Verified",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ObservationLookBack",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Observation",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "Vital Sign Result Type",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "value" : 1,
+                     "unit" : "years",
+                     "type" : "Quantity"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ReportLabResultAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "A",
+                  "expression" : {
+                     "name" : "LabResultAssessments",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "A",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Value",
+                        "value" : {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "name" : "QuantityText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}Quantity",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           }, {
+                              "name" : "ConceptText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}CodeableConcept",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           } ]
+                        }
+                     }, {
+                        "name" : "Interpretation",
+                        "value" : {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "name" : "ConceptText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "type" : "First",
+                                 "source" : {
+                                    "path" : "interpretation",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }, {
+                              "name" : "ConceptText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}CodeableConcept",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           } ]
+                        }
+                     }, {
+                        "name" : "Date",
+                        "value" : {
+                           "name" : "ObservationDate",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "A",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportVitalSignAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "A",
+                  "expression" : {
+                     "name" : "VitalSignAssessments",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "A",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Value",
+                        "value" : {
+                           "name" : "QuantityText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "strict" : false,
+                              "type" : "As",
+                              "operand" : {
+                                 "path" : "value",
+                                 "scope" : "A",
+                                 "type" : "Property"
+                              },
+                              "asTypeSpecifier" : {
+                                 "name" : "{http://hl7.org/fhir}Quantity",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Interpretation",
+                        "value" : {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "name" : "ConceptText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "type" : "First",
+                                 "source" : {
+                                    "path" : "interpretation",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }, {
+                              "name" : "ConceptText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "scope" : "A",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}CodeableConcept",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           } ]
+                        }
+                     }, {
+                        "name" : "Date",
+                        "value" : {
+                           "name" : "ObservationDate",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "A",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "CovidMedicationRequests",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ActiveCompletedOrStoppedMedicationRequest",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "MedicationRequestLookBack",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}MedicationRequest",
+                     "codeProperty" : "medication",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "path" : "codes",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Covid-19 Medications",
+                           "type" : "ConceptRef"
+                        }
+                     }
+                  }, {
+                     "value" : 2,
+                     "unit" : "years",
+                     "type" : "Quantity"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ReportCovidMedications",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "O",
+                  "expression" : {
+                     "name" : "CovidMedicationRequests",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Type",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "Request",
+                           "type" : "Literal"
+                        }
+                     }, {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "strict" : false,
+                              "type" : "As",
+                              "operand" : {
+                                 "path" : "medication",
+                                 "scope" : "O",
+                                 "type" : "Property"
+                              },
+                              "asTypeSpecifier" : {
+                                 "name" : "{http://hl7.org/fhir}CodeableConcept",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Start",
+                        "value" : {
+                           "name" : "DateTimeText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "authoredOn",
+                              "scope" : "O",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "End",
+                        "value" : {
+                           "strict" : false,
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "Null"
+                           },
+                           "asTypeSpecifier" : {
+                              "name" : "{urn:hl7-org:elm-types:r1}String",
+                              "type" : "NamedTypeSpecifier"
+                           }
+                        }
+                     }, {
+                        "name" : "Status",
+                        "value" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "status",
+                              "scope" : "O",
+                              "type" : "Property"
+                           }
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Start",
+                     "type" : "ByColumn"
+                  }, {
+                     "direction" : "desc",
+                     "path" : "End",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "NonPharmacologicTreatmentProcedures",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ProcedurePerformance",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ProcedureLookBack",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Procedure",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "path" : "codes",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Non pharmacologic treatments for Covid-19",
+                           "type" : "ConceptRef"
+                        }
+                     }
+                  }, {
+                     "value" : 2,
+                     "unit" : "years",
+                     "type" : "Quantity"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ReportNonPharmacologicTreatmentProcedures",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P",
+                  "expression" : {
+                     "name" : "NonPharmacologicTreatmentProcedures",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Type",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "Procedure",
+                           "type" : "Literal"
+                        }
+                     }, {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "P",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Date",
+                        "value" : {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "name" : "DateTimeText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "performed",
+                                    "scope" : "P",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}dateTime",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           }, {
+                              "name" : "DateTimeText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "path" : "start",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "strict" : false,
+                                    "type" : "As",
+                                    "operand" : {
+                                       "path" : "performed",
+                                       "scope" : "P",
+                                       "type" : "Property"
+                                    },
+                                    "asTypeSpecifier" : {
+                                       "name" : "{http://hl7.org/fhir}Period",
+                                       "type" : "NamedTypeSpecifier"
+                                    }
+                                 }
+                              } ]
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "NonPharmacologicTreatmentServiceRequests",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ServiceRequestActiveOrCompleted",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ServiceRequestLookBack",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}ServiceRequest",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "path" : "codes",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "Non pharmacologic treatments for Covid-19",
+                           "type" : "ConceptRef"
+                        }
+                     }
+                  }, {
+                     "value" : 2,
+                     "unit" : "years",
+                     "type" : "Quantity"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ReportNonPharmacologicTreatmentServiceRequests",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "P",
+                  "expression" : {
+                     "name" : "NonPharmacologicTreatmentServiceRequests",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Type",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "ServiceRequest",
+                           "type" : "Literal"
+                        }
+                     }, {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "P",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Date",
+                        "value" : {
+                           "name" : "DateTimeText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "authoredOn",
+                              "scope" : "P",
+                              "type" : "Property"
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportProceduresAndTherapies",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "M",
+                  "expression" : {
+                     "type" : "Union",
+                     "operand" : [ {
+                        "name" : "ReportNonPharmacologicTreatmentProcedures",
+                        "type" : "ExpressionRef"
+                     }, {
+                        "name" : "ReportNonPharmacologicTreatmentServiceRequests",
+                        "type" : "ExpressionRef"
+                     } ]
+                  }
+               } ],
+               "relationship" : [ ],
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportRiskAssessmentRelevantToCovidManagement",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Tuple",
+               "element" : [ {
+                  "name" : "Name",
+                  "value" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "Risk for Acute Respiratory Distress Syndrome (ARDS)",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "name" : "Score",
+                  "value" : {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : "82%",
+                     "type" : "Literal"
+                  }
+               }, {
+                  "name" : "Date",
+                  "value" : {
+                     "type" : "ToString",
+                     "operand" : {
+                        "type" : "Today"
+                     }
+                  }
+               } ]
+            }
+         }, {
+            "name" : "Summary",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Tuple",
+               "element" : [ {
+                  "name" : "Patient",
+                  "value" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "type" : "Concatenate",
+                           "operand" : [ {
+                              "type" : "Concatenate",
+                              "operand" : [ {
+                                 "type" : "Combine",
+                                 "source" : {
+                                    "type" : "Query",
+                                    "source" : [ {
+                                       "alias" : "G",
+                                       "expression" : {
+                                          "type" : "Flatten",
+                                          "operand" : {
+                                             "type" : "Query",
+                                             "source" : [ {
+                                                "alias" : "$this",
+                                                "expression" : {
+                                                   "path" : "name",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "name" : "Patient",
+                                                      "type" : "ExpressionRef"
+                                                   }
+                                                }
+                                             } ],
+                                             "where" : {
+                                                "type" : "Not",
+                                                "operand" : {
+                                                   "type" : "IsNull",
+                                                   "operand" : {
+                                                      "path" : "given",
+                                                      "type" : "Property",
+                                                      "source" : {
+                                                         "name" : "$this",
+                                                         "type" : "AliasRef"
+                                                      }
+                                                   }
+                                                }
+                                             },
+                                             "return" : {
+                                                "expression" : {
+                                                   "path" : "given",
+                                                   "type" : "Property",
+                                                   "source" : {
+                                                      "name" : "$this",
+                                                      "type" : "AliasRef"
+                                                   }
+                                                }
+                                             }
+                                          }
+                                       }
+                                    } ],
+                                    "relationship" : [ ],
+                                    "return" : {
+                                       "expression" : {
+                                          "path" : "value",
+                                          "scope" : "G",
+                                          "type" : "Property"
+                                       }
+                                    }
+                                 },
+                                 "separator" : {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : " ",
+                                    "type" : "Literal"
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : " ",
+                                 "type" : "Literal"
+                              } ]
+                           }, {
+                              "type" : "Combine",
+                              "source" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "F",
+                                    "expression" : {
+                                       "type" : "Query",
+                                       "source" : [ {
+                                          "alias" : "$this",
+                                          "expression" : {
+                                             "path" : "name",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "name" : "Patient",
+                                                "type" : "ExpressionRef"
+                                             }
+                                          }
+                                       } ],
+                                       "where" : {
+                                          "type" : "Not",
+                                          "operand" : {
+                                             "type" : "IsNull",
+                                             "operand" : {
+                                                "path" : "family",
+                                                "type" : "Property",
+                                                "source" : {
+                                                   "name" : "$this",
+                                                   "type" : "AliasRef"
+                                                }
+                                             }
+                                          }
+                                       },
+                                       "return" : {
+                                          "expression" : {
+                                             "path" : "family",
+                                             "type" : "Property",
+                                             "source" : {
+                                                "name" : "$this",
+                                                "type" : "AliasRef"
+                                             }
+                                          }
+                                       }
+                                    }
+                                 } ],
+                                 "relationship" : [ ],
+                                 "return" : {
+                                    "expression" : {
+                                       "path" : "value",
+                                       "scope" : "F",
+                                       "type" : "Property"
+                                    }
+                                 }
+                              },
+                              "separator" : {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : " ",
+                                 "type" : "Literal"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Gender",
+                        "value" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "gender",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Patient",
+                                 "type" : "ExpressionRef"
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Age",
+                        "value" : {
+                           "precision" : "Year",
+                           "type" : "CalculateAge",
+                           "operand" : {
+                              "path" : "birthDate.value",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "Patient",
+                                 "type" : "ExpressionRef"
+                              }
+                           }
+                        }
+                     } ]
+                  }
+               }, {
+                  "name" : "PertinentMedicalHistory",
+                  "value" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "SignsAndSymptomsOfCovid19",
+                        "value" : {
+                           "name" : "ReportSignsAndSymptomsOfCovid19",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "name" : "RiskFactorsForCovid19",
+                        "value" : {
+                           "name" : "ReportRiskFactorsForCovid19",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  }
+               }, {
+                  "name" : "DiagnosticTests",
+                  "value" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "LabResultAssessments",
+                        "value" : {
+                           "name" : "ReportLabResultAssessments",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "name" : "VitalSignAssessments",
+                        "value" : {
+                           "name" : "ReportVitalSignAssessments",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  }
+               }, {
+                  "name" : "HistoricalTreatments",
+                  "value" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "CovidMedications",
+                        "value" : {
+                           "name" : "ReportCovidMedications",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "name" : "ProceduresAndTherapies",
+                        "value" : {
+                           "name" : "ReportProceduresAndTherapies",
+                           "type" : "ExpressionRef"
+                        }
+                     } ]
+                  }
+               }, {
+                  "name" : "RiskConsiderations",
+                  "value" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "RiskAssessmentRelevantToCovidManagement",
+                        "value" : {
+                           "name" : "ReportRiskAssessmentRelevantToCovidManagement",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
+                        "name" : "PatientReportedAssessmentsAndOutcomes",
+                        "value" : {
+                           "type" : "Null"
+                        }
+                     }, {
+                        "name" : "PatientCenteredSocialNeeds",
+                        "value" : {
+                           "type" : "Null"
+                        }
+                     } ]
+                  }
+               } ]
+            }
+         } ]
+      }
+   }
+}
+

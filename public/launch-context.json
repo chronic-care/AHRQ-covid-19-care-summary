@@ -1,0 +1,5 @@
+{
+  "clientId": "14eafbf0-c8c2-4b06-aac7-8ce4830e1499",
+  "scope": "patient/*.read launch/patient",
+  "completeInTarget": true
+}

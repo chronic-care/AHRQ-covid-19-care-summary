@@ -1,0 +1,337 @@
+{
+  "PertinentMedicalHistory": [
+    {
+      "name": "Signs and Symptoms of COVID-19",
+      "dataKey": "SignsAndSymptomsOfCovid19",
+      "dataKeySource": "PertinentMedicalHistory",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Conditions Associated with COVID-19 queries the following elements:",
+          "elements": [
+            {
+              "name": "Signs and Symptoms of COVID-19",
+              "status": "active or recurring",
+              "lookback": "n/a"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Status": "Status",
+            "Start": {
+              "key": "Onset",
+              "formatter": "datishFormat",
+              "minWidth": 150
+            },
+            "End": {
+              "key": "Abatement",
+              "formatter": "datishFormat",
+              "minWidth": 150
+            },
+            "Recorded": {
+              "key": "DateRecorded",
+              "formatter": "datishFormat"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Risk Factors for COVID-19",
+      "dataKey": "RiskFactorsForCovid19",
+      "dataKeySource": "PertinentMedicalHistory",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Risk Factors for COVID-19 queries the following elements:",
+          "elements": [
+            {
+              "name": "Hypertension",
+              "status": "active or recurring",
+              "lookback": "n/a"
+            },
+            {
+              "name": "Diabetes",
+              "status": "active or recurring",
+              "lookback": "n/a"
+            },
+            {
+              "name": "Renal dysfunction",
+              "status": "active or recurring",
+              "lookback": "n/a"
+            },
+            {
+              "name": "Age >= 65 YRS",
+              "status": "n/a",
+              "lookback": "n/a"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Status": "Status",
+            "Start": {
+              "key": "Onset",
+              "formatter": "datishAgeFormat",
+              "minWidth": 150
+            },
+            "End": {
+              "key": "Abatement",
+              "formatter": "datishAgeFormat",
+              "minWidth": 150
+            },
+            "Recorded": {
+              "key": "DateRecorded",
+              "formatter": "datishFormat"
+            }
+          },
+          "filter": "!Visit",
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "Factor that may place the patient at risk for COVID-19 complication"
+            }
+          ]
+        },
+        {
+          "headers": {
+            "Name": "Name",
+            "Visit": {
+              "key": "Visit",
+              "formatter": "datishAgeFormat",
+              "minWidth": 150
+            }
+          },
+          "filter": "Visit",
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "Factor that may place the patient at risk for COVID-19 complication"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "DiagnosticTests": [
+    {
+      "name": "Laboratory Results",
+      "dataKey": "LabResultAssessments",
+      "dataKeySource": "DiagnosticTests",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Laboratory Results queries the following elements:",
+          "elements": [
+            {
+              "name": "Lab results",
+              "status": "final or amended",
+              "lookback": "1 years"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Value": { "key": "Value", "formatter": "quantityFormat" },
+            "Date": { "key": "Date", "formatter": "datishFormat" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vital Signs",
+      "dataKey": "VitalSignAssessments",
+      "dataKeySource": "DiagnosticTests",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Vital Signs queries the following elements:",
+          "elements": [
+            {
+              "name": "Vital signs",
+              "status": "final or amended",
+              "lookback": "1 years"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Value": { "key": "Value", "formatter": "quantityFormat" },
+            "Date": { "key": "Date", "formatter": "datishFormat" }
+          }
+        }
+      ]
+    }
+  ],
+  "HistoricalTreatments": [
+    {
+      "name": "Medications",
+      "dataKey": "CovidMedications",
+      "dataKeySource": "HistoricalTreatments",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Medications queries the following elements:",
+          "elements": [
+            {
+              "name": "Medication statements and orders",
+              "status": "any",
+              "lookback": "2 years"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Type": "Type",
+            "Start": { "key": "Start", "formatter": "datishFormat" },
+            "End": { "key": "End", "formatter": "datishFormat" }
+          },
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "COVID-19 medications prescribed"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Procedures and Therapies",
+      "dataKey": "ProceduresAndTherapies",
+      "dataKeySource": "HistoricalTreatments",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Procedure Treatments queries the following elements:",
+          "elements": [
+            {
+              "name": "Non-pharmacologic procedures",
+              "status": "any",
+              "lookback": "2 years"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Type": "Type",
+            "Date": { "key": "Date", "formatter": "datishFormat" }
+          }
+        }
+      ]
+    }
+  ],
+  "RiskConsiderations": [
+    {
+      "name": "Risk Assessment Relevant to COVID-19 Management",
+      "dataKey": "RiskAssessmentRelevantToCovidManagement",
+      "dataKeySource": "RiskConsiderations",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Risk Screenings Relevant to COVID-19 Management queries the following elements:",
+          "elements": [
+            {
+              "name": "Risk screenings relevant to COVID-19 management",
+              "status": "final or amended",
+              "lookback": "1 year"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Score": { "key": "Score", "formatter": "quantityFormat" },
+            "Date": { "key": "Date", "formatter": "datishFormat" }
+          },
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "COVID-19 risk screenings"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Patient Reported Assessments & Outcomes",
+      "dataKey": "PatientReportedAssessmentsAndOutcomes",
+      "dataKeySource": "RiskConsiderations",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Most Recent MME queries the following elements:",
+          "elements": [
+            {
+              "name": "Patient-generated data relevant to COVID-19",
+              "status": "final or amended",
+              "lookback": "most recent in past 3 months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Result": { "key": "Result", "formatter": "quantityFormat" },
+            "Date": { "key": "Date", "formatter": "datishFormat" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Patient-Centered Social Needs",
+      "dataKey": "PatientCenteredSocialNeeds",
+      "dataKeySource": "RiskConsiderations",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Social Needs queries the following elements:",
+          "elements": [
+            {
+              "name": "Gravity Project assessment instruments",
+              "status": "final or amended",
+              "lookback": "most recent in past 12 months"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Result": { "key": "Result", "formatter": "quantityFormat" },
+            "Date": { "key": "Date", "formatter": "datishFormat" }
+          },
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "Patient has social risks or needs"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
