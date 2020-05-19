@@ -65,50 +65,41 @@
       },
       "valueSets" : {
          "def" : [ {
-            "name" : "2019 Novel Coronavirus COVID 19",
-            "id" : "2.16.840.1.113762.1.4.1114.7",
+            "name" : "COVID-19 Comorbidity Risk",
+            "id" : "http://fhir.logicahealth.org/covid19/ValueSet/covid-19-comorbidity-risk-vs",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests",
+            "id" : "http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.109",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "COVID-19 Diagnostic Labs",
+            "id" : "http://fhir.logicahealth.org/covid19/ValueSet/covid-19-diagnostic-labs-vs",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Confirmed COVID19 Infection",
+            "id" : "2.16.840.1.113762.1.4.1032.117",
             "accessLevel" : "Public"
          }, {
             "name" : "COVID 19 signs and symptoms",
             "id" : "2.16.840.1.113762.1.4.1181.51",
             "accessLevel" : "Public"
          }, {
-            "name" : "Diagnosis of Hypertension",
-            "id" : "2.16.840.1.113883.3.600.263",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Diabetes",
-            "id" : "2.16.840.1.113883.3.464.1003.103.12.1001",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "Kidney Failure",
-            "id" : "2.16.840.1.113883.3.464.1003.109.12.1028",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests",
-            "id" : "2.16.840.1.113762.1.4.1032.109",
-            "version" : "urn:hl7:version:20200417",
-            "accessLevel" : "Public"
-         }, {
-            "name" : "COVID19 Lab Tests",
-            "id" : "2.16.840.1.113762.1.4.1223.14",
-            "accessLevel" : "Public"
-         }, {
             "name" : "Vital Sign Result Type",
             "id" : "2.16.840.1.113883.3.88.12.80.62",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Neutrophil count",
+            "id" : "2.16.840.1.113883.3.666.5.1035",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "Bilirubin",
+            "id" : "2.16.840.1.113883.3.666.5.2377",
             "accessLevel" : "Public"
          } ]
       },
       "codes" : {
          "def" : [ {
-            "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code",
-            "id" : "94534-5",
-            "display" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection",
-            "accessLevel" : "Public",
-            "codeSystem" : {
-               "name" : "LOINC"
-            }
-         }, {
             "name" : "Covid-19 Medications code",
             "id" : "979093",
             "display" : "Hydroxychloroquine Sulfate 200 MG [Plaquenil]",
@@ -128,13 +119,6 @@
       },
       "concepts" : {
          "def" : [ {
-            "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen",
-            "display" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection",
-            "accessLevel" : "Public",
-            "code" : [ {
-               "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code"
-            } ]
-         }, {
             "name" : "Covid-19 Medications",
             "display" : "Covid-19 Medications",
             "accessLevel" : "Public",
@@ -1184,7 +1168,7 @@
                }
             }
          }, {
-            "name" : "HypertensionConditions",
+            "name" : "ComorbidityRiskConditions",
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
@@ -1200,53 +1184,7 @@
                      "codeProperty" : "code",
                      "type" : "Retrieve",
                      "codes" : {
-                        "name" : "Diagnosis of Hypertension",
-                        "type" : "ValueSetRef"
-                     }
-                  } ]
-               } ]
-            }
-         }, {
-            "name" : "DiabetesConditions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Confirmed",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "ActiveOrRecurring",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Diabetes",
-                        "type" : "ValueSetRef"
-                     }
-                  } ]
-               } ]
-            }
-         }, {
-            "name" : "RenalDysfunctionConditions",
-            "context" : "Patient",
-            "accessLevel" : "Public",
-            "expression" : {
-               "name" : "Confirmed",
-               "libraryName" : "C3F",
-               "type" : "FunctionRef",
-               "operand" : [ {
-                  "name" : "ActiveOrRecurring",
-                  "libraryName" : "C3F",
-                  "type" : "FunctionRef",
-                  "operand" : [ {
-                     "dataType" : "{http://hl7.org/fhir}Condition",
-                     "codeProperty" : "code",
-                     "type" : "Retrieve",
-                     "codes" : {
-                        "name" : "Kidney Failure",
+                        "name" : "COVID-19 Comorbidity Risk",
                         "type" : "ValueSetRef"
                      }
                   } ]
@@ -1280,20 +1218,8 @@
             "context" : "Patient",
             "accessLevel" : "Public",
             "expression" : {
-               "type" : "Union",
-               "operand" : [ {
-                  "type" : "Union",
-                  "operand" : [ {
-                     "name" : "HypertensionConditions",
-                     "type" : "ExpressionRef"
-                  }, {
-                     "name" : "DiabetesConditions",
-                     "type" : "ExpressionRef"
-                  } ]
-               }, {
-                  "name" : "RenalDysfunctionConditions",
-                  "type" : "ExpressionRef"
-               } ]
+               "name" : "ComorbidityRiskConditions",
+               "type" : "ExpressionRef"
             }
          }, {
             "name" : "EncounterRiskFactorsForCovid19",
@@ -1323,53 +1249,19 @@
                      } ],
                      "relationship" : [ ],
                      "where" : {
-                        "type" : "Or",
-                        "operand" : [ {
-                           "type" : "Or",
+                        "type" : "InValueSet",
+                        "code" : {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
                            "operand" : [ {
-                              "type" : "InValueSet",
-                              "code" : {
-                                 "name" : "ToConcept",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "name" : "R",
-                                    "type" : "AliasRef"
-                                 } ]
-                              },
-                              "valueset" : {
-                                 "name" : "Diagnosis of Hypertension"
-                              }
-                           }, {
-                              "type" : "InValueSet",
-                              "code" : {
-                                 "name" : "ToConcept",
-                                 "libraryName" : "FHIRHelpers",
-                                 "type" : "FunctionRef",
-                                 "operand" : [ {
-                                    "name" : "R",
-                                    "type" : "AliasRef"
-                                 } ]
-                              },
-                              "valueset" : {
-                                 "name" : "Diabetes"
-                              }
+                              "name" : "R",
+                              "type" : "AliasRef"
                            } ]
-                        }, {
-                           "type" : "InValueSet",
-                           "code" : {
-                              "name" : "ToConcept",
-                              "libraryName" : "FHIRHelpers",
-                              "type" : "FunctionRef",
-                              "operand" : [ {
-                                 "name" : "R",
-                                 "type" : "AliasRef"
-                              } ]
-                           },
-                           "valueset" : {
-                              "name" : "Kidney Failure"
-                           }
-                        } ]
+                        },
+                        "valueset" : {
+                           "name" : "COVID-19 Comorbidity Risk"
+                        }
                      }
                   }
                }
@@ -1541,53 +1433,19 @@
                } ],
                "relationship" : [ ],
                "where" : {
-                  "type" : "Or",
-                  "operand" : [ {
-                     "type" : "Or",
+                  "type" : "InValueSet",
+                  "code" : {
+                     "name" : "ToConcept",
+                     "libraryName" : "FHIRHelpers",
+                     "type" : "FunctionRef",
                      "operand" : [ {
-                        "type" : "InValueSet",
-                        "code" : {
-                           "name" : "ToConcept",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "R",
-                              "type" : "AliasRef"
-                           } ]
-                        },
-                        "valueset" : {
-                           "name" : "Diagnosis of Hypertension"
-                        }
-                     }, {
-                        "type" : "InValueSet",
-                        "code" : {
-                           "name" : "ToConcept",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "name" : "R",
-                              "type" : "AliasRef"
-                           } ]
-                        },
-                        "valueset" : {
-                           "name" : "Diabetes"
-                        }
+                        "name" : "R",
+                        "type" : "AliasRef"
                      } ]
-                  }, {
-                     "type" : "InValueSet",
-                     "code" : {
-                        "name" : "ToConcept",
-                        "libraryName" : "FHIRHelpers",
-                        "type" : "FunctionRef",
-                        "operand" : [ {
-                           "name" : "R",
-                           "type" : "AliasRef"
-                        } ]
-                     },
-                     "valueset" : {
-                        "name" : "Kidney Failure"
-                     }
-                  } ]
+                  },
+                  "valueset" : {
+                     "name" : "COVID-19 Comorbidity Risk"
+                  }
                },
                "return" : {
                   "expression" : {
@@ -2022,22 +1880,29 @@
                            "codeProperty" : "code",
                            "type" : "Retrieve",
                            "codes" : {
-                              "name" : "COVID19 Lab Tests",
+                              "name" : "COVID-19 Diagnostic Labs",
                               "type" : "ValueSetRef"
                            }
                         } ]
                      }, {
-                        "dataType" : "{http://hl7.org/fhir}Observation",
-                        "codeProperty" : "code",
-                        "type" : "Retrieve",
-                        "codes" : {
-                           "path" : "codes",
-                           "type" : "Property",
-                           "source" : {
-                              "name" : "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen",
-                              "type" : "ConceptRef"
+                        "type" : "Union",
+                        "operand" : [ {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Neutrophil count",
+                              "type" : "ValueSetRef"
                            }
-                        }
+                        }, {
+                           "dataType" : "{http://hl7.org/fhir}Observation",
+                           "codeProperty" : "code",
+                           "type" : "Retrieve",
+                           "codes" : {
+                              "name" : "Bilirubin",
+                              "type" : "ValueSetRef"
+                           }
+                        } ]
                      } ]
                   }, {
                      "value" : 1,

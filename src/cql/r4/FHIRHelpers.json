@@ -1,5 +1,9 @@
 {
    "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      } ],
       "identifier" : {
          "id" : "FHIRHelpers",
          "version" : "4.0.0"

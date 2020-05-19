@@ -37,33 +37,34 @@ codesystem "LOCAL": 'http://cds.ahrq.gov/cdsconnect/ccs'
 
 // ## Value sets ##
 
-// List value sets used by the artifact. The links to the Value Set Authority Center (VSAC) point to the latest
-// expansion of each value set available.
+// Value sets not available in VSAC, copied via expanded FHIR ValueSet resources
 
-// [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1114.7/expansion/Latest)
-valueset "2019 Novel Coronavirus COVID 19": '2.16.840.1.113762.1.4.1114.7'
+valueset "COVID-19 Comorbidity Risk": 'http://fhir.logicahealth.org/covid19/ValueSet/covid-19-comorbidity-risk-vs'
+
+valueset "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests": 'http://cts.nlm.nih.gov/fhir/ValueSet/2.16.840.1.113762.1.4.1032.109'
+
+valueset "COVID-19 Diagnostic Labs": 'http://fhir.logicahealth.org/covid19/ValueSet/covid-19-diagnostic-labs-vs'
+
+// The links to the Value Set Authority Center (VSAC) point to the latest expansion of each value set available.
+
+// [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1032.117/expansion/Latest)
+valueset "Confirmed COVID19 Infection": '2.16.840.1.113762.1.4.1032.117'
 
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1181.51/expansion/Latest)
 valueset "COVID 19 signs and symptoms": '2.16.840.1.113762.1.4.1181.51'
 
-// [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.600.263/expansion/Latest)
-valueset "Diagnosis of Hypertension": '2.16.840.1.113883.3.600.263'
-
-// [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.103.12.1001/expansion/Latest)
-valueset "Diabetes": '2.16.840.1.113883.3.464.1003.103.12.1001'
-
-// [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.464.1003.109.12.1028/expansion)
-valueset "Kidney Failure": '2.16.840.1.113883.3.464.1003.109.12.1028'
-
-
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1032.109/expansion/Latest)
-valueset "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests": '2.16.840.1.113762.1.4.1032.109' version 'urn:hl7:version:20200417'
-
-// [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113762.1.4.1223.14/expansion/Latest)
-valueset "COVID19 Lab Tests": '2.16.840.1.113762.1.4.1223.14'
+// version attribute is not supported by CodeService
+//valueset "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests": '2.16.840.1.113762.1.4.1032.109' version '20200417'
 
 // [See value set in VSAC](https://vsac.nlm.nih.gov/valueset/2.16.840.1.113883.3.88.12.80.62/expansion/Latest)
 valueset "Vital Sign Result Type": '2.16.840.1.113883.3.88.12.80.62'
+
+// Diagnostic lab Tests
+
+valueset "Neutrophil count": '2.16.840.1.113883.3.666.5.1035'
+
+valueset "Bilirubin": '2.16.840.1.113883.3.666.5.2377'
 
 // ## Individual codes ##
 
@@ -72,11 +73,11 @@ valueset "Vital Sign Result Type": '2.16.840.1.113883.3.88.12.80.62'
 // best-practice not to create value sets containing a single code.
 
 //
-// TODO the following individual codes support prototype work, but should use Value Sets when available
+// TODO the following individual codes support prototype work, will be replaced by Value Sets when available
 //
 
-code "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code":
-  '94534-5' from "LOINC" display 'SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection'
+//code "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code":
+//  '94534-5' from "LOINC" display 'SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection'
 
 code "Covid-19 Medications code":
   '979093' from "RxNorm" display 'Hydroxychloroquine Sulfate 200 MG [Plaquenil]'
@@ -86,9 +87,9 @@ code "Non pharmacologic treatments for Covid-19 code":
 
 // CQL currently requires concept declarations to contain references to code declarations.
 
-concept "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen":
-  { "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code" }
-  display 'SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection'
+//concept "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen":
+//  { "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code" }
+//  display 'SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen by NAA with probe detection'
 
 concept "Covid-19 Medications":
   { "Covid-19 Medications code" }
@@ -114,23 +115,12 @@ context Patient
 // have been developed as re-usable functions that can be invoked wherever they are needed.
 
 // Returns the first-found display text for a CodeableConcept, looking first at the `text` attribute, then the
-// `display` on each `coding` until it finds a non-null value.  Some PEG codes are normalized due to length.
+// `display` on each `coding` until it finds a non-null value.
 // @param c - a FHIR CodeableConcept to get text from
 // @returns {System.String} the display text or null if none is found
 
 define function ConceptText(c FHIR.CodeableConcept):
-  /* if c ~ "Mean score [PEG]" or c ~ "Pain Enjoyment General Activity (PEG) Assessment LEGACY"
-    then 'Mean score [PEG]'
-  else if c ~ "Pain severity in the past week - 0-10 numeric rating [Reported]" or c ~ "Pain LEGACY"
-    then 'Pain'
-  else if c ~ "What number best describes how pain has interfered with your enjoyment of life during the past week"
-       or c ~ "Enjoyment of life LEGACY"
-    then 'Enjoyment of life'
-  else if c ~ "What number best describes how pain has interfered with your general activity during the past week"
-       or c ~ "General activity LEGACY"
-    then 'General activity'
-  else */
-    Coalesce(c.text.value, Coalesce((c.coding) c2 return c2.display.value))
+  Coalesce(c.text.value, Coalesce((c.coding) c2 return c2.display.value))
 
 // Returns a text representation of a date using the CQL `ToString` function.
 // @param d - a FHIR date to get text for
@@ -267,22 +257,14 @@ define ReportSignsAndSymptomsOfCovid19:
 // Conditions that are risk factors for opioid-related harms and their dates of onset
 // This is a union of nine value sets (w/ different filtering criteria)
 
-define HypertensionConditions:
-  C3F.Confirmed(C3F.ActiveOrRecurring([Condition: "Diagnosis of Hypertension"]))
-
-define DiabetesConditions:
-  C3F.Confirmed(C3F.ActiveOrRecurring([Condition: "Diabetes"]))
-
-define RenalDysfunctionConditions:
-  C3F.Confirmed(C3F.ActiveOrRecurring([Condition: "Kidney Failure"]))
+define ComorbidityRiskConditions:
+  C3F.Confirmed(C3F.ActiveOrRecurring([Condition: "COVID-19 Comorbidity Risk"]))
 
 define Is65orOlder:
   AgeInYears() >= 65
 
 define ConditionRiskFactorsForCovid19:
-  HypertensionConditions
-  union DiabetesConditions
-  union RenalDysfunctionConditions
+  ComorbidityRiskConditions
 
 // Encounter diagnoses that are risk factors for opioid-related harms and their dates of onset. Some risk factors may
 // not exist on the problem list, and therefore may not be represented as Conditions (depending on EHR implementation).
@@ -293,9 +275,7 @@ define ConditionRiskFactorsForCovid19:
 define EncounterRiskFactorsForCovid19:
   [Encounter] E where exists(
     E.reasonCode R where
-      FHIRHelpers.ToConcept(R) in "Diagnosis of Hypertension"
-      or FHIRHelpers.ToConcept(R) in "Diabetes"
-      or FHIRHelpers.ToConcept(R) in "Kidney Failure"
+      FHIRHelpers.ToConcept(R) in "COVID-19 Comorbidity Risk"
   )
 
 // NOTE: As a convention, if an expression's name starts with "Report", its purpose is to format data for the purpose
@@ -319,9 +299,7 @@ define ReportConditionRiskFactorsForCovid19:
 
 define function GetEncounterDiagnosesRiskFactorsForCovid19(enc Encounter):
   (enc.reasonCode) R
-    where FHIRHelpers.ToConcept(R) in "Diagnosis of Hypertension"
-      or FHIRHelpers.ToConcept(R) in "Diabetes"
-      or FHIRHelpers.ToConcept(R) in "Kidney Failure"
+    where FHIRHelpers.ToConcept(R) in "COVID-19 Comorbidity Risk"
     return {
       Name:      ConceptText(R),
       Status:    null as String,
@@ -361,8 +339,10 @@ define ReportRiskFactorsForCovid19:
 define LabResultAssessments:
   C3F.Verified(C3F.ObservationLookBack(
     [Observation: "C19HCC SARS coronavirus 2 Qualitative Detection Laboratory Tests"]
-      union [Observation: "COVID19 Lab Tests"]
-      union [Observation: "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen"],
+      // union [Observation: "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen"]
+      union [Observation: "COVID-19 Diagnostic Labs"]
+      union [Observation: "Neutrophil count"]
+      union [Observation: "Bilirubin"],
     1 years
   ))
 
@@ -450,6 +430,7 @@ define ReportProceduresAndTherapies:
 
 // RISK CONSIDERATIONS
 
+// Hard-coded value for prototype demonstation
 define ReportRiskAssessmentRelevantToCovidManagement:
   {
     Name:           'Risk for Acute Respiratory Distress Syndrome (ARDS)',

@@ -1,0 +1,148 @@
+{
+  "resourceType": "ValueSet",
+  "id": "covid-19-comorbidity-risk-vs",
+  "url": "http://fhir.logicahealth.org/covid19/ValueSet/covid-19-comorbidity-risk-vs",
+  "version": "0.5.0",
+  "name": "COVID19ComorbidityRiskVS",
+  "title": "COVID-19 Comorbidity Risk Value Set",
+  "status": "active",
+  "date": "2020-05-05T20:12:55+00:00",
+  "publisher": "Logica",
+  "contact": [
+    {
+      "name": "Logica",
+      "telecom": [
+        {
+          "system": "url",
+          "value": "https://logicahealth.org/"
+        }
+      ]
+    }
+  ],
+  "description": "Patients with these underlying medical conditions might be at higher risk for severe illness from COVID-19.",
+  "compose": {
+    "include": [
+      {
+        "system": "http://snomed.info/sct",
+        "concept": [
+          {
+            "code": "17097001",
+            "display": "Chronic disease of respiratory system (disorder)"
+          },
+          {
+            "code": "73211009",
+            "display": "Diabetes mellitus (disorder)"
+          },
+          {
+            "code": "49601007",
+            "display": "Disorder of cardiovascular system (disorder)"
+          },
+          {
+            "code": "85828009",
+            "display": "Autoimmmune disease (disorder)"
+          },
+          {
+            "code": "370388006",
+            "display": "Patient immunocompromised (finding)"
+          },
+          {
+            "code": "49601007",
+            "display": "Disorder of cardiovascular system (disorder)"
+          },
+          {
+            "code": "236423003",
+            "display": "Renal impairment (disorder)"
+          },
+          {
+            "code": "83911000119104",
+            "display": "Severe obesity (disorder)"
+          },
+          {
+            "code": "235856003",
+            "display": "Disorder of liver (disorder)"
+          }
+        ]
+      },
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "17097001"
+					}
+				]
+			},
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "73211009"
+					}
+				]
+			},
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "49601007"
+					}
+				]
+			},
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "85828009"
+					}
+				]
+			},
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "49601007"
+					}
+				]
+			},
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "236423003"
+					}
+				]
+			},
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "83911000119104"
+					}
+				]
+			},
+			{
+				"system": "http://snomed.info/sct",
+				"filter": [
+					{
+						"property": "concept",
+						"op": "is-a",
+						"value": "235856003"
+					}
+				]
+			}
+    ]
+  }
+}
