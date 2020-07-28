@@ -2,7 +2,7 @@
   "name": "AHRQ-covid-19-care-summary",
   "version": "0.1.0",
   "description": "COVID-19 Care Summary SMART-on-FHIR App",
-  "homepage": "http://localhost:8000/AHRQ-covid-19-care-summary",
+  "homepage": "https://chronic-care.github.io/AHRQ-covid-19-care-summary",
   "license": "Apache-2.0",
   "dependencies": {
     "@babel/polyfill": "^7.8.3",

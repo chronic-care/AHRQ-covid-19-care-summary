@@ -272,7 +272,7 @@ export default class Summary extends Component {
   renderSectionHeader(section) {
     const flagged = this.isSectionFlagged(section);
     const flaggedClass = flagged ? 'flagged' : '';
-    const { numMedicalHistoryEntries, numAssessmentEntries, numTreatmentsEntries, numRiskEntries } = this.props;
+    const { numMedicalHistoryEntries, numDiagnosticTestEntries, numTreatmentsEntries, numRiskEntries } = this.props;
 
     let icon = '';
     let title = '';
@@ -281,7 +281,7 @@ export default class Summary extends Component {
       title = `Pertinent Medical History (${numMedicalHistoryEntries})`;
     } else if (section === 'DiagnosticTests') {
       icon = <PainIcon width="35"  height="35" />;
-      title = `Diagnostic Tests (${numAssessmentEntries})`
+      title = `Diagnostic Assessment (${numDiagnosticTestEntries})`
     } else if (section === 'HistoricalTreatments') {
       icon = <TreatmentsIcon width="36" height="38" />;
       title = `Treatment History (${numTreatmentsEntries})`
@@ -379,7 +379,7 @@ Summary.propTypes = {
   collector: PropTypes.array.isRequired,
   result: PropTypes.object.isRequired,
   numMedicalHistoryEntries: PropTypes.number.isRequired,
-  numAssessmentEntries: PropTypes.number.isRequired,
+  numDiagnosticTestEntries: PropTypes.number.isRequired,
   numTreatmentsEntries: PropTypes.number.isRequired,
   numRiskEntries: PropTypes.number.isRequired
 };

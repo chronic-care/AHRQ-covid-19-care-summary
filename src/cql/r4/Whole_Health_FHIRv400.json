@@ -1,0 +1,1632 @@
+{
+   "library" : {
+      "annotation" : [ {
+         "translatorOptions" : "",
+         "type" : "CqlToElmInfo"
+      } ],
+      "identifier" : {
+         "id" : "Whole_Health_FHIRv400",
+         "version" : "1.0.0"
+      },
+      "schemaIdentifier" : {
+         "id" : "urn:hl7-org:elm",
+         "version" : "r1"
+      },
+      "usings" : {
+         "def" : [ {
+            "localIdentifier" : "System",
+            "uri" : "urn:hl7-org:elm-types:r1"
+         }, {
+            "localIdentifier" : "FHIR",
+            "uri" : "http://hl7.org/fhir",
+            "version" : "4.0.0"
+         } ]
+      },
+      "includes" : {
+         "def" : [ {
+            "localIdentifier" : "C3F",
+            "path" : "CDS_Connect_Commons_for_FHIRv400",
+            "version" : "1.0.1"
+         }, {
+            "localIdentifier" : "FHIRHelpers",
+            "path" : "FHIRHelpers",
+            "version" : "4.0.0"
+         } ]
+      },
+      "codeSystems" : {
+         "def" : [ {
+            "name" : "LOINC",
+            "id" : "http://loinc.org",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "SNOMED-CT",
+            "id" : "http://snomed.info/sct",
+            "accessLevel" : "Public"
+         }, {
+            "name" : "WHOLEHEALTH",
+            "id" : "http://terminology.va.gov/CodeSystem/personal-health-inventory",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "valueSets" : {
+         "def" : [ {
+            "name" : "Whole Health Self-Care assessments",
+            "id" : "http://va.gov/fhir/ValueSet/personal-health-inventory-self-care",
+            "accessLevel" : "Public"
+         } ]
+      },
+      "codes" : {
+         "def" : [ {
+            "name" : "Well-Being code",
+            "id" : "well-being",
+            "display" : "Well-Being",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "WHOLEHEALTH"
+            }
+         }, {
+            "name" : "Physical Well-Being code",
+            "id" : "physical-well-being",
+            "display" : "Phsical Well-Being",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "WHOLEHEALTH"
+            }
+         }, {
+            "name" : "Mental Well-Being code",
+            "id" : "mental-well-being",
+            "display" : "Mental Well-Being",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "WHOLEHEALTH"
+            }
+         }, {
+            "name" : "Life Well-Being code",
+            "id" : "life-well-being",
+            "display" : "Life Well-Being",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "WHOLEHEALTH"
+            }
+         }, {
+            "name" : "Self-Care Now Rating code",
+            "id" : "self-care-now-rating",
+            "display" : "Where I am Now",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "WHOLEHEALTH"
+            }
+         }, {
+            "name" : "Self-Care Future Rating code",
+            "id" : "self-care-future-rating",
+            "display" : "Where I Want to Be",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "WHOLEHEALTH"
+            }
+         } ]
+      },
+      "concepts" : {
+         "def" : [ {
+            "name" : "Well-Being assessment",
+            "display" : "Well-Being",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Well-Being code"
+            } ]
+         }, {
+            "name" : "Physical Well-Being assessment",
+            "display" : "Pysical Well-Being",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Physical Well-Being code"
+            } ]
+         }, {
+            "name" : "Mental Well-Being assessment",
+            "display" : "Mental Well-Being",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Mental Well-Being code"
+            } ]
+         }, {
+            "name" : "Life Well-Being assessment",
+            "display" : "Life Well-Being",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Life Well-Being code"
+            } ]
+         }, {
+            "name" : "Self-Care Now Rating",
+            "display" : "Where I am Now",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Self-Care Now Rating code"
+            } ]
+         }, {
+            "name" : "Self-Care Future Rating",
+            "display" : "Where I Want to Be",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Self-Care Future Rating code"
+            } ]
+         } ]
+      },
+      "statements" : {
+         "def" : [ {
+            "name" : "Patient",
+            "context" : "Patient",
+            "expression" : {
+               "type" : "SingletonFrom",
+               "operand" : {
+                  "dataType" : "{http://hl7.org/fhir}Patient",
+                  "type" : "Retrieve"
+               }
+            }
+         }, {
+            "name" : "ConceptText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "path" : "text",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "c",
+                        "type" : "OperandRef"
+                     }
+                  }
+               }, {
+                  "type" : "Coalesce",
+                  "operand" : [ {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "c2",
+                        "expression" : {
+                           "path" : "coding",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "return" : {
+                        "expression" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "display",
+                              "scope" : "c2",
+                              "type" : "Property"
+                           }
+                        }
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "c",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}CodeableConcept",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "DateText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "ToString",
+               "operand" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "name" : "d",
+                     "type" : "OperandRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "d",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}date",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "DateTimeText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "ToString",
+               "operand" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "name" : "d",
+                     "type" : "OperandRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "d",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}dateTime",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "InstantText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "ToString",
+               "operand" : {
+                  "path" : "value",
+                  "type" : "Property",
+                  "source" : {
+                     "name" : "i",
+                     "type" : "OperandRef"
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "i",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}instant",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "QuantityText",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "q",
+                        "type" : "OperandRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}String",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  }
+               },
+               "else" : {
+                  "type" : "If",
+                  "condition" : {
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
+                     "operand" : {
+                        "type" : "Not",
+                        "operand" : {
+                           "type" : "IsNull",
+                           "operand" : {
+                              "path" : "comparator",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "q",
+                                 "type" : "OperandRef"
+                              }
+                           }
+                        }
+                     }
+                  },
+                  "then" : {
+                     "type" : "Concatenate",
+                     "operand" : [ {
+                        "type" : "Concatenate",
+                        "operand" : [ {
+                           "type" : "Concatenate",
+                           "operand" : [ {
+                              "type" : "Concatenate",
+                              "operand" : [ {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "comparator",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "q",
+                                       "type" : "OperandRef"
+                                    }
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : " ",
+                                 "type" : "Literal"
+                              } ]
+                           }, {
+                              "type" : "ToString",
+                              "operand" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "q",
+                                       "type" : "OperandRef"
+                                    }
+                                 }
+                              }
+                           } ]
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : " ",
+                           "type" : "Literal"
+                        } ]
+                     }, {
+                        "path" : "value",
+                        "type" : "Property",
+                        "source" : {
+                           "path" : "unit",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "q",
+                              "type" : "OperandRef"
+                           }
+                        }
+                     } ]
+                  },
+                  "else" : {
+                     "type" : "If",
+                     "condition" : {
+                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "And",
+                           "operand" : [ {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "path" : "unit",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "q",
+                                       "type" : "OperandRef"
+                                    }
+                                 }
+                              }
+                           }, {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "Equal",
+                                 "operand" : [ {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "unit",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "q",
+                                          "type" : "OperandRef"
+                                       }
+                                    }
+                                 }, {
+                                    "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                    "value" : "{score}",
+                                    "type" : "Literal"
+                                 } ]
+                              }
+                           } ]
+                        }
+                     },
+                     "then" : {
+                        "type" : "Concatenate",
+                        "operand" : [ {
+                           "type" : "Concatenate",
+                           "operand" : [ {
+                              "type" : "ToString",
+                              "operand" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "name" : "q",
+                                       "type" : "OperandRef"
+                                    }
+                                 }
+                              }
+                           }, {
+                              "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                              "value" : " ",
+                              "type" : "Literal"
+                           } ]
+                        }, {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "unit",
+                              "type" : "Property",
+                              "source" : {
+                                 "name" : "q",
+                                 "type" : "OperandRef"
+                              }
+                           }
+                        } ]
+                     },
+                     "else" : {
+                        "type" : "If",
+                        "condition" : {
+                           "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                           "type" : "As",
+                           "operand" : {
+                              "type" : "And",
+                              "operand" : [ {
+                                 "type" : "Not",
+                                 "operand" : {
+                                    "type" : "IsNull",
+                                    "operand" : {
+                                       "path" : "code",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "q",
+                                          "type" : "OperandRef"
+                                       }
+                                    }
+                                 }
+                              }, {
+                                 "type" : "Not",
+                                 "operand" : {
+                                    "type" : "Equal",
+                                    "operand" : [ {
+                                       "path" : "value",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "path" : "code",
+                                          "type" : "Property",
+                                          "source" : {
+                                             "name" : "q",
+                                             "type" : "OperandRef"
+                                          }
+                                       }
+                                    }, {
+                                       "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                       "value" : "{score}",
+                                       "type" : "Literal"
+                                    } ]
+                                 }
+                              } ]
+                           }
+                        },
+                        "then" : {
+                           "type" : "Concatenate",
+                           "operand" : [ {
+                              "type" : "Concatenate",
+                              "operand" : [ {
+                                 "type" : "ToString",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "type" : "Property",
+                                    "source" : {
+                                       "path" : "value",
+                                       "type" : "Property",
+                                       "source" : {
+                                          "name" : "q",
+                                          "type" : "OperandRef"
+                                       }
+                                    }
+                                 }
+                              }, {
+                                 "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                                 "value" : " ",
+                                 "type" : "Literal"
+                              } ]
+                           }, {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "code",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "q",
+                                    "type" : "OperandRef"
+                                 }
+                              }
+                           } ]
+                        },
+                        "else" : {
+                           "type" : "ToString",
+                           "operand" : {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "path" : "value",
+                                 "type" : "Property",
+                                 "source" : {
+                                    "name" : "q",
+                                    "type" : "OperandRef"
+                                 }
+                              }
+                           }
+                        }
+                     }
+                  }
+               }
+            },
+            "operand" : [ {
+               "name" : "q",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Quantity",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "PeriodObject",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "p",
+                        "type" : "OperandRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "TupleTypeSpecifier",
+                     "element" : [ {
+                        "name" : "Start",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "End",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }
+               },
+               "else" : {
+                  "type" : "Tuple",
+                  "element" : [ {
+                     "name" : "Start",
+                     "value" : {
+                        "name" : "DateTimeText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "start",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "p",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  }, {
+                     "name" : "End",
+                     "value" : {
+                        "name" : "DateTimeText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "end",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "p",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "p",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Period",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "RangeObject",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "IsNull",
+                     "operand" : {
+                        "name" : "r",
+                        "type" : "OperandRef"
+                     }
+                  }
+               },
+               "then" : {
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Null"
+                  },
+                  "asTypeSpecifier" : {
+                     "type" : "TupleTypeSpecifier",
+                     "element" : [ {
+                        "name" : "Low",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }, {
+                        "name" : "High",
+                        "type" : {
+                           "name" : "{urn:hl7-org:elm-types:r1}String",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }
+               },
+               "else" : {
+                  "type" : "Tuple",
+                  "element" : [ {
+                     "name" : "Low",
+                     "value" : {
+                        "name" : "QuantityText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "low",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "r",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  }, {
+                     "name" : "High",
+                     "value" : {
+                        "name" : "QuantityText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "path" : "high",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "r",
+                              "type" : "OperandRef"
+                           }
+                        } ]
+                     }
+                  } ]
+               }
+            },
+            "operand" : [ {
+               "name" : "r",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Range",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "ObservationDate",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "name" : "DateTimeText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "strict" : false,
+                     "type" : "As",
+                     "operand" : {
+                        "path" : "effective",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "o",
+                           "type" : "OperandRef"
+                        }
+                     },
+                     "asTypeSpecifier" : {
+                        "name" : "{http://hl7.org/fhir}dateTime",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  } ]
+               }, {
+                  "name" : "InstantText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "strict" : false,
+                     "type" : "As",
+                     "operand" : {
+                        "path" : "effective",
+                        "type" : "Property",
+                        "source" : {
+                           "name" : "o",
+                           "type" : "OperandRef"
+                        }
+                     },
+                     "asTypeSpecifier" : {
+                        "name" : "{http://hl7.org/fhir}instant",
+                        "type" : "NamedTypeSpecifier"
+                     }
+                  } ]
+               }, {
+                  "name" : "DateTimeText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "path" : "start",
+                     "type" : "Property",
+                     "source" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "effective",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "o",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Period",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               }, {
+                  "name" : "InstantText",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "path" : "issued",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "o",
+                        "type" : "OperandRef"
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "o",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Observation",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "Onset",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "Coalesce",
+               "operand" : [ {
+                  "type" : "List",
+                  "element" : [ {
+                     "name" : "DateTimeText",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}dateTime",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "QuantityText",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Age",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "PeriodObject",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Period",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "name" : "RangeObject",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}Range",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     } ]
+                  }, {
+                     "path" : "value",
+                     "type" : "Property",
+                     "source" : {
+                        "strict" : false,
+                        "type" : "As",
+                        "operand" : {
+                           "path" : "onset",
+                           "type" : "Property",
+                           "source" : {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           }
+                        },
+                        "asTypeSpecifier" : {
+                           "name" : "{http://hl7.org/fhir}string",
+                           "type" : "NamedTypeSpecifier"
+                        }
+                     }
+                  } ]
+               } ]
+            },
+            "operand" : [ {
+               "name" : "c",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}Condition",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "WellBeingAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ObservationLookBack",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Observation",
+                  "codeProperty" : "code",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "path" : "codes",
+                     "type" : "Property",
+                     "source" : {
+                        "name" : "Well-Being assessment",
+                        "type" : "ConceptRef"
+                     }
+                  }
+               }, {
+                  "value" : 2,
+                  "unit" : "year",
+                  "type" : "Quantity"
+               } ]
+            }
+         }, {
+            "name" : "ReportWellBeingAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "A",
+                  "expression" : {
+                     "name" : "WellBeingAssessments",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "Physical",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "C",
+                        "expression" : {
+                           "path" : "component",
+                           "scope" : "A",
+                           "type" : "Property"
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Physical Well-Being assessment",
+                           "type" : "ConceptRef"
+                        } ]
+                     }
+                  }
+               }, {
+                  "identifier" : "Mental",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "C",
+                        "expression" : {
+                           "path" : "component",
+                           "scope" : "A",
+                           "type" : "Property"
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Mental Well-Being assessment",
+                           "type" : "ConceptRef"
+                        } ]
+                     }
+                  }
+               }, {
+                  "identifier" : "Life",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "C",
+                        "expression" : {
+                           "path" : "component",
+                           "scope" : "A",
+                           "type" : "Property"
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Life Well-Being assessment",
+                           "type" : "ConceptRef"
+                        } ]
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "value" : "true",
+                  "type" : "Literal"
+               },
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "A",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Questions",
+                        "value" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "C",
+                              "expression" : {
+                                 "type" : "List",
+                                 "element" : [ {
+                                    "type" : "First",
+                                    "source" : {
+                                       "name" : "Physical",
+                                       "type" : "QueryLetRef"
+                                    }
+                                 }, {
+                                    "type" : "First",
+                                    "source" : {
+                                       "name" : "Mental",
+                                       "type" : "QueryLetRef"
+                                    }
+                                 }, {
+                                    "type" : "First",
+                                    "source" : {
+                                       "name" : "Life",
+                                       "type" : "QueryLetRef"
+                                    }
+                                 } ]
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "name" : "C",
+                                    "type" : "AliasRef"
+                                 }
+                              }
+                           },
+                           "return" : {
+                              "expression" : {
+                                 "type" : "Tuple",
+                                 "element" : [ {
+                                    "name" : "Name",
+                                    "value" : {
+                                       "name" : "ConceptText",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "code",
+                                          "scope" : "C",
+                                          "type" : "Property"
+                                       } ]
+                                    }
+                                 }, {
+                                    "name" : "Score",
+                                    "value" : {
+                                       "type" : "Coalesce",
+                                       "operand" : [ {
+                                          "name" : "QuantityText",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "strict" : false,
+                                             "type" : "As",
+                                             "operand" : {
+                                                "path" : "value",
+                                                "scope" : "C",
+                                                "type" : "Property"
+                                             },
+                                             "asTypeSpecifier" : {
+                                                "name" : "{http://hl7.org/fhir}Quantity",
+                                                "type" : "NamedTypeSpecifier"
+                                             }
+                                          } ]
+                                       }, {
+                                          "type" : "ToString",
+                                          "operand" : {
+                                             "name" : "ToInteger",
+                                             "libraryName" : "FHIRHelpers",
+                                             "type" : "FunctionRef",
+                                             "operand" : [ {
+                                                "strict" : false,
+                                                "type" : "As",
+                                                "operand" : {
+                                                   "path" : "value",
+                                                   "scope" : "C",
+                                                   "type" : "Property"
+                                                },
+                                                "asTypeSpecifier" : {
+                                                   "name" : "{http://hl7.org/fhir}integer",
+                                                   "type" : "NamedTypeSpecifier"
+                                                }
+                                             } ]
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Date",
+                        "value" : {
+                           "name" : "ObservationDate",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "A",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "SelfCareAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ObservationLookBack",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Observation",
+                  "codeProperty" : "code",
+                  "type" : "Retrieve",
+                  "codes" : {
+                     "name" : "Whole Health Self-Care assessments",
+                     "type" : "ValueSetRef"
+                  }
+               }, {
+                  "value" : 2,
+                  "unit" : "year",
+                  "type" : "Quantity"
+               } ]
+            }
+         }, {
+            "name" : "ReportSelfCareAssessments",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "A",
+                  "expression" : {
+                     "name" : "SelfCareAssessments",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "let" : [ {
+                  "identifier" : "NowRating",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "C",
+                        "expression" : {
+                           "path" : "component",
+                           "scope" : "A",
+                           "type" : "Property"
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Self-Care Now Rating",
+                           "type" : "ConceptRef"
+                        } ]
+                     }
+                  }
+               }, {
+                  "identifier" : "FutureRating",
+                  "expression" : {
+                     "type" : "Query",
+                     "source" : [ {
+                        "alias" : "C",
+                        "expression" : {
+                           "path" : "component",
+                           "scope" : "A",
+                           "type" : "Property"
+                        }
+                     } ],
+                     "relationship" : [ ],
+                     "where" : {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "C",
+                              "type" : "Property"
+                           } ]
+                        }, {
+                           "name" : "Self-Care Future Rating",
+                           "type" : "ConceptRef"
+                        } ]
+                     }
+                  }
+               } ],
+               "relationship" : [ ],
+               "where" : {
+                  "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "value" : "true",
+                  "type" : "Literal"
+               },
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "A",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Questions",
+                        "value" : {
+                           "type" : "Query",
+                           "source" : [ {
+                              "alias" : "C",
+                              "expression" : {
+                                 "type" : "List",
+                                 "element" : [ {
+                                    "type" : "First",
+                                    "source" : {
+                                       "name" : "NowRating",
+                                       "type" : "QueryLetRef"
+                                    }
+                                 }, {
+                                    "type" : "First",
+                                    "source" : {
+                                       "name" : "FutureRating",
+                                       "type" : "QueryLetRef"
+                                    }
+                                 } ]
+                              }
+                           } ],
+                           "relationship" : [ ],
+                           "where" : {
+                              "type" : "Not",
+                              "operand" : {
+                                 "type" : "IsNull",
+                                 "operand" : {
+                                    "name" : "C",
+                                    "type" : "AliasRef"
+                                 }
+                              }
+                           },
+                           "return" : {
+                              "expression" : {
+                                 "type" : "Tuple",
+                                 "element" : [ {
+                                    "name" : "Name",
+                                    "value" : {
+                                       "name" : "ConceptText",
+                                       "type" : "FunctionRef",
+                                       "operand" : [ {
+                                          "path" : "code",
+                                          "scope" : "C",
+                                          "type" : "Property"
+                                       } ]
+                                    }
+                                 }, {
+                                    "name" : "Score",
+                                    "value" : {
+                                       "type" : "Coalesce",
+                                       "operand" : [ {
+                                          "name" : "QuantityText",
+                                          "type" : "FunctionRef",
+                                          "operand" : [ {
+                                             "strict" : false,
+                                             "type" : "As",
+                                             "operand" : {
+                                                "path" : "value",
+                                                "scope" : "C",
+                                                "type" : "Property"
+                                             },
+                                             "asTypeSpecifier" : {
+                                                "name" : "{http://hl7.org/fhir}Quantity",
+                                                "type" : "NamedTypeSpecifier"
+                                             }
+                                          } ]
+                                       }, {
+                                          "type" : "ToString",
+                                          "operand" : {
+                                             "name" : "ToInteger",
+                                             "libraryName" : "FHIRHelpers",
+                                             "type" : "FunctionRef",
+                                             "operand" : [ {
+                                                "strict" : false,
+                                                "type" : "As",
+                                                "operand" : {
+                                                   "path" : "value",
+                                                   "scope" : "C",
+                                                   "type" : "Property"
+                                                },
+                                                "asTypeSpecifier" : {
+                                                   "name" : "{http://hl7.org/fhir}integer",
+                                                   "type" : "NamedTypeSpecifier"
+                                                }
+                                             } ]
+                                          }
+                                       } ]
+                                    }
+                                 } ]
+                              }
+                           }
+                        }
+                     }, {
+                        "name" : "Date",
+                        "value" : {
+                           "name" : "ObservationDate",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "A",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportPersonalHealthInventory",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Union",
+               "operand" : [ {
+                  "name" : "ReportWellBeingAssessments",
+                  "type" : "ExpressionRef"
+               }, {
+                  "name" : "ReportSelfCareAssessments",
+                  "type" : "ExpressionRef"
+               } ]
+            }
+         }, {
+            "name" : "PersonalHealthGoals",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "GoalLookBack",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "dataType" : "{http://hl7.org/fhir}Goal",
+                  "type" : "Retrieve"
+               }, {
+                  "value" : 3,
+                  "unit" : "years",
+                  "type" : "Quantity"
+               } ]
+            }
+         }, {
+            "name" : "ReportPersonalHealthGoals",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "G",
+                  "expression" : {
+                     "name" : "PersonalHealthGoals",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Description",
+                        "value" : {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "description",
+                              "scope" : "G",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Type",
+                        "value" : {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : "Goal",
+                           "type" : "Literal"
+                        }
+                     }, {
+                        "name" : "Status",
+                        "value" : {
+                           "path" : "value",
+                           "type" : "Property",
+                           "source" : {
+                              "path" : "lifecycleStatus",
+                              "scope" : "G",
+                              "type" : "Property"
+                           }
+                        }
+                     }, {
+                        "name" : "StartDate",
+                        "value" : {
+                           "name" : "DateText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "strict" : false,
+                              "type" : "As",
+                              "operand" : {
+                                 "path" : "start",
+                                 "scope" : "G",
+                                 "type" : "Property"
+                              },
+                              "asTypeSpecifier" : {
+                                 "name" : "{http://hl7.org/fhir}date",
+                                 "type" : "NamedTypeSpecifier"
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "DueDate",
+                        "value" : {
+                           "name" : "DateText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "First",
+                              "source" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "T",
+                                    "expression" : {
+                                       "path" : "target",
+                                       "scope" : "G",
+                                       "type" : "Property"
+                                    }
+                                 } ],
+                                 "relationship" : [ ],
+                                 "return" : {
+                                    "expression" : {
+                                       "strict" : false,
+                                       "type" : "As",
+                                       "operand" : {
+                                          "path" : "due",
+                                          "scope" : "T",
+                                          "type" : "Property"
+                                       },
+                                       "asTypeSpecifier" : {
+                                          "name" : "{http://hl7.org/fhir}date",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Target",
+                        "value" : {
+                           "name" : "QuantityText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "type" : "First",
+                              "source" : {
+                                 "type" : "Query",
+                                 "source" : [ {
+                                    "alias" : "T",
+                                    "expression" : {
+                                       "path" : "target",
+                                       "scope" : "G",
+                                       "type" : "Property"
+                                    }
+                                 } ],
+                                 "relationship" : [ ],
+                                 "return" : {
+                                    "expression" : {
+                                       "strict" : false,
+                                       "type" : "As",
+                                       "operand" : {
+                                          "path" : "detail",
+                                          "scope" : "T",
+                                          "type" : "Property"
+                                       },
+                                       "asTypeSpecifier" : {
+                                          "name" : "{http://hl7.org/fhir}Quantity",
+                                          "type" : "NamedTypeSpecifier"
+                                       }
+                                    }
+                                 }
+                              }
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "StartDate",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
+            "name" : "ReportPersonalHealthPlan",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "ReportPersonalHealthGoals",
+               "type" : "ExpressionRef"
+            }
+         } ]
+      }
+   }
+}
+

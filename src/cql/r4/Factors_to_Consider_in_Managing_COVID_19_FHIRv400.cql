@@ -66,11 +66,22 @@ valueset "Neutrophil count": '2.16.840.1.113883.3.666.5.1035'
 
 valueset "Bilirubin": '2.16.840.1.113883.3.666.5.2377'
 
+// Risk considerations
+
+valueset "COVID-19 Patient-reported assessments": 'http://fhir.logicahealth.org/covid19/ValueSet/covid-19-patient-reported-assessments-vs'
+
 // ## Individual codes ##
 
 // list individual codes from code systems used directly in the CQL logic. Individual codes are used when there is
 // a single code from a particular vocabulary standard used to represent a clinical concept. It is considered
 // best-practice not to create value sets containing a single code.
+
+code "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported] code":
+  '55758-7' from "LOINC" display 'Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]'
+code "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported] code":
+  '44261-6' from "LOINC" display 'Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]'
+code "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ] code":
+  '70274-6' from "LOINC" display 'Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]'
 
 //
 // TODO the following individual codes support prototype work, will be replaced by Value Sets when available
@@ -86,6 +97,16 @@ code "Non pharmacologic treatments for Covid-19 code":
   '371907003' from "SNOMED-CT" display 'Oxygen administration by nasal cannula (procedure)'
 
 // CQL currently requires concept declarations to contain references to code declarations.
+
+concept "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]":
+  { "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported] code" }
+  display 'Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]'
+concept "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]":
+  { "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported] code" }
+  display 'Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]'
+concept "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]":
+  { "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ] code" }
+  display 'Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]'
 
 //concept "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen":
 //  { "SARS coronavirus 2 RdRp gene [Presence] in Respiratory specimen code" }
@@ -121,6 +142,20 @@ context Patient
 
 define function ConceptText(c FHIR.CodeableConcept):
   Coalesce(c.text.value, Coalesce((c.coding) c2 return c2.display.value))
+
+// We do not reliably get ranges back from EHR data, but ranges are important to understanding assessment scores in
+// the summary.  This function adds ranges to the name for known assessments.
+// @param c - a FHIR CodeableConcept to get the updated text for
+// @returns {System.String} the display text with range information appended
+define function ConceptTextWithRange(c FHIR.CodeableConcept):
+  if c ~ "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]"
+    then ConceptText(c) + ' [Range: 0-6]'
+  else if c ~ "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]"
+    then ConceptText(c) + ' [Range: 0-27]'
+  else if c ~ "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]"
+    then ConceptText(c) + ' [Range: 0-21]'
+  else
+    ConceptText(c)
 
 // Returns a text representation of a date using the CQL `ToString` function.
 // @param d - a FHIR date to get text for
@@ -235,6 +270,19 @@ define SignsAndSymptomsOfCovid19:
 // Determines if the patient has any of the conditions associated with COVID-19
 define HasSignsAndSymptomsOfCovid19:
   exists(SignsAndSymptomsOfCovid19)
+
+// Determines if the patient meets the inclusion criteria for the CDS. Inclusion criteria is:
+// - Age >=18 years
+// - AND
+//   - OR Symptoms associated with COVID-19
+define MeetsInclusionCriteria:
+  true
+  /* Is18orOlder
+  and (
+    HasSignsAndSymptomsOfCovid19
+    or HasRecentOpioidPainMedication
+    or HasRecentAdjuvantAnalgesicMedication
+  ) */
 
 // ## Intervention(s) ##
 
@@ -438,6 +486,28 @@ define ReportRiskAssessmentRelevantToCovidManagement:
     Date:           ToString(Today())
   }
 
+  // Patient Reported Outcomes and Assessments - overall scores and dates (MOST RECENT w/ lookback 1 year)
+
+define PatientReportedAssessmentsAndOutcomes:
+  C3F.Verified(C3F.ObservationLookBack(
+    [Observation: "COVID-19 Patient-reported assessments"]
+  , 1 year))
+
+define ReportPatientReportedAssessmentsAndOutcomes:
+  (PatientReportedAssessmentsAndOutcomes) S
+  return {
+    Name:           ConceptTextWithRange(S.code),
+    Result:          Coalesce(
+      QuantityText(S.value as FHIR.Quantity),
+      (S.value as FHIR.string).value
+    ),
+    Interpretation: Coalesce(
+      ConceptText(First(S.interpretation)),
+      ConceptText(S.value as FHIR.CodeableConcept)
+    ),
+    Date:           ObservationDate(S)
+  }
+  sort by Date desc
 
 // SUMMARY
 
@@ -450,13 +520,15 @@ define Summary: {
   Patient: {
     Name: Combine(Patient.name.given G return G.value, ' ') + ' ' + Combine(Patient.name.family F return F.value, ' '),
     Gender: Patient.gender.value,
-    Age: AgeInYears()
+    Age: AgeInYears(),
+    MeetsInclusionCriteria: MeetsInclusionCriteria
   },
   PertinentMedicalHistory: {
     SignsAndSymptomsOfCovid19: ReportSignsAndSymptomsOfCovid19,
     RiskFactorsForCovid19: ReportRiskFactorsForCovid19
   },
   DiagnosticTests: {
+    RiskAssessmentRelevantToCovidManagement: ReportRiskAssessmentRelevantToCovidManagement,
     LabResultAssessments: ReportLabResultAssessments,
     VitalSignAssessments: ReportVitalSignAssessments
   },
@@ -465,8 +537,7 @@ define Summary: {
     ProceduresAndTherapies: ReportProceduresAndTherapies
   },
   RiskConsiderations: {
-    RiskAssessmentRelevantToCovidManagement: ReportRiskAssessmentRelevantToCovidManagement,
-    PatientReportedAssessmentsAndOutcomes: null,
+    PatientReportedAssessmentsAndOutcomes: ReportPatientReportedAssessmentsAndOutcomes,
     PatientCenteredSocialNeeds: null
   }
 }

@@ -2735,40 +2735,6 @@
                         }
                      }
                   }
-               }, {
-                  "identifier" : "TargetQuantities",
-                  "expression" : {
-                     "type" : "Query",
-                     "source" : [ {
-                        "alias" : "T",
-                        "expression" : {
-                           "path" : "target",
-                           "scope" : "G",
-                           "type" : "Property"
-                        }
-                     } ],
-                     "relationship" : [ ],
-                     "return" : {
-                        "expression" : {
-                           "name" : "ToQuantity",
-                           "libraryName" : "FHIRHelpers",
-                           "type" : "FunctionRef",
-                           "operand" : [ {
-                              "strict" : false,
-                              "type" : "As",
-                              "operand" : {
-                                 "path" : "due",
-                                 "scope" : "T",
-                                 "type" : "Property"
-                              },
-                              "asTypeSpecifier" : {
-                                 "name" : "{http://hl7.org/fhir}Duration",
-                                 "type" : "NamedTypeSpecifier"
-                              }
-                           } ]
-                        }
-                     }
-                  }
                } ],
                "relationship" : [ ],
                "where" : {
@@ -2776,67 +2742,38 @@
                   "operand" : [ {
                      "type" : "Or",
                      "operand" : [ {
-                        "type" : "Or",
+                        "type" : "In",
                         "operand" : [ {
-                           "type" : "In",
-                           "operand" : [ {
-                              "type" : "ToDateTime",
-                              "operand" : {
-                                 "name" : "StartDate",
-                                 "type" : "QueryLetRef"
-                              }
-                           }, {
-                              "name" : "LookBackInterval",
+                           "type" : "ToDateTime",
+                           "operand" : {
+                              "name" : "StartDate",
                               "type" : "QueryLetRef"
-                           } ]
+                           }
                         }, {
-                           "type" : "In",
-                           "operand" : [ {
-                              "type" : "ToDateTime",
-                              "operand" : {
-                                 "name" : "StatusDate",
-                                 "type" : "QueryLetRef"
-                              }
-                           }, {
-                              "name" : "LookBackInterval",
-                              "type" : "QueryLetRef"
-                           } ]
+                           "name" : "LookBackInterval",
+                           "type" : "QueryLetRef"
                         } ]
                      }, {
-                        "type" : "Exists",
-                        "operand" : {
-                           "type" : "Query",
-                           "source" : [ {
-                              "alias" : "TD",
-                              "expression" : {
-                                 "name" : "TargetDates",
-                                 "type" : "QueryLetRef"
-                              }
-                           } ],
-                           "relationship" : [ ],
-                           "where" : {
-                              "type" : "In",
-                              "operand" : [ {
-                                 "type" : "ToDateTime",
-                                 "operand" : {
-                                    "name" : "TD",
-                                    "type" : "AliasRef"
-                                 }
-                              }, {
-                                 "name" : "LookBackInterval",
-                                 "type" : "QueryLetRef"
-                              } ]
+                        "type" : "In",
+                        "operand" : [ {
+                           "type" : "ToDateTime",
+                           "operand" : {
+                              "name" : "StatusDate",
+                              "type" : "QueryLetRef"
                            }
-                        }
+                        }, {
+                           "name" : "LookBackInterval",
+                           "type" : "QueryLetRef"
+                        } ]
                      } ]
                   }, {
                      "type" : "Exists",
                      "operand" : {
                         "type" : "Query",
                         "source" : [ {
-                           "alias" : "TQ",
+                           "alias" : "TD",
                            "expression" : {
-                              "name" : "TargetQuantities",
+                              "name" : "TargetDates",
                               "type" : "QueryLetRef"
                            }
                         } ],
@@ -2846,14 +2783,8 @@
                            "operand" : [ {
                               "type" : "ToDateTime",
                               "operand" : {
-                                 "type" : "Add",
-                                 "operand" : [ {
-                                    "name" : "StartDate",
-                                    "type" : "QueryLetRef"
-                                 }, {
-                                    "name" : "TQ",
-                                    "type" : "AliasRef"
-                                 } ]
+                                 "name" : "TD",
+                                 "type" : "AliasRef"
                               }
                            }, {
                               "name" : "LookBackInterval",

@@ -96,10 +96,38 @@
             "name" : "Bilirubin",
             "id" : "2.16.840.1.113883.3.666.5.2377",
             "accessLevel" : "Public"
+         }, {
+            "name" : "COVID-19 Patient-reported assessments",
+            "id" : "http://fhir.logicahealth.org/covid19/ValueSet/covid-19-patient-reported-assessments-vs",
+            "accessLevel" : "Public"
          } ]
       },
       "codes" : {
          "def" : [ {
+            "name" : "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported] code",
+            "id" : "55758-7",
+            "display" : "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported] code",
+            "id" : "44261-6",
+            "display" : "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
+            "name" : "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ] code",
+            "id" : "70274-6",
+            "display" : "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]",
+            "accessLevel" : "Public",
+            "codeSystem" : {
+               "name" : "LOINC"
+            }
+         }, {
             "name" : "Covid-19 Medications code",
             "id" : "979093",
             "display" : "Hydroxychloroquine Sulfate 200 MG [Plaquenil]",
@@ -119,6 +147,27 @@
       },
       "concepts" : {
          "def" : [ {
+            "name" : "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]",
+            "display" : "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported] code"
+            } ]
+         }, {
+            "name" : "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]",
+            "display" : "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported] code"
+            } ]
+         }, {
+            "name" : "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]",
+            "display" : "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]",
+            "accessLevel" : "Public",
+            "code" : [ {
+               "name" : "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ] code"
+            } ]
+         }, {
             "name" : "Covid-19 Medications",
             "display" : "Covid-19 Medications",
             "accessLevel" : "Public",
@@ -192,6 +241,137 @@
                      }
                   } ]
                } ]
+            },
+            "operand" : [ {
+               "name" : "c",
+               "operandTypeSpecifier" : {
+                  "name" : "{http://hl7.org/fhir}CodeableConcept",
+                  "type" : "NamedTypeSpecifier"
+               }
+            } ]
+         }, {
+            "name" : "ConceptTextWithRange",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "type" : "FunctionDef",
+            "expression" : {
+               "type" : "If",
+               "condition" : {
+                  "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                  "type" : "As",
+                  "operand" : {
+                     "type" : "Equivalent",
+                     "operand" : [ {
+                        "name" : "ToConcept",
+                        "libraryName" : "FHIRHelpers",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "c",
+                           "type" : "OperandRef"
+                        } ]
+                     }, {
+                        "name" : "Patient Health Questionnaire 2 item (PHQ-2) total score [Reported]",
+                        "type" : "ConceptRef"
+                     } ]
+                  }
+               },
+               "then" : {
+                  "type" : "Concatenate",
+                  "operand" : [ {
+                     "name" : "ConceptText",
+                     "type" : "FunctionRef",
+                     "operand" : [ {
+                        "name" : "c",
+                        "type" : "OperandRef"
+                     } ]
+                  }, {
+                     "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                     "value" : " [Range: 0-6]",
+                     "type" : "Literal"
+                  } ]
+               },
+               "else" : {
+                  "type" : "If",
+                  "condition" : {
+                     "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                     "type" : "As",
+                     "operand" : {
+                        "type" : "Equivalent",
+                        "operand" : [ {
+                           "name" : "ToConcept",
+                           "libraryName" : "FHIRHelpers",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           } ]
+                        }, {
+                           "name" : "Patient Health Questionnaire 9 item (PHQ-9) total score [Reported]",
+                           "type" : "ConceptRef"
+                        } ]
+                     }
+                  },
+                  "then" : {
+                     "type" : "Concatenate",
+                     "operand" : [ {
+                        "name" : "ConceptText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "c",
+                           "type" : "OperandRef"
+                        } ]
+                     }, {
+                        "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                        "value" : " [Range: 0-27]",
+                        "type" : "Literal"
+                     } ]
+                  },
+                  "else" : {
+                     "type" : "If",
+                     "condition" : {
+                        "asType" : "{urn:hl7-org:elm-types:r1}Boolean",
+                        "type" : "As",
+                        "operand" : {
+                           "type" : "Equivalent",
+                           "operand" : [ {
+                              "name" : "ToConcept",
+                              "libraryName" : "FHIRHelpers",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "name" : "c",
+                                 "type" : "OperandRef"
+                              } ]
+                           }, {
+                              "name" : "Generalized anxiety disorder 7 item (GAD-7) total score [Reported.PHQ]",
+                              "type" : "ConceptRef"
+                           } ]
+                        }
+                     },
+                     "then" : {
+                        "type" : "Concatenate",
+                        "operand" : [ {
+                           "name" : "ConceptText",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "c",
+                              "type" : "OperandRef"
+                           } ]
+                        }, {
+                           "valueType" : "{urn:hl7-org:elm-types:r1}String",
+                           "value" : " [Range: 0-21]",
+                           "type" : "Literal"
+                        } ]
+                     },
+                     "else" : {
+                        "name" : "ConceptText",
+                        "type" : "FunctionRef",
+                        "operand" : [ {
+                           "name" : "c",
+                           "type" : "OperandRef"
+                        } ]
+                     }
+                  }
+               }
             },
             "operand" : [ {
                "name" : "c",
@@ -1069,6 +1249,15 @@
                   "name" : "SignsAndSymptomsOfCovid19",
                   "type" : "ExpressionRef"
                }
+            }
+         }, {
+            "name" : "MeetsInclusionCriteria",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "valueType" : "{urn:hl7-org:elm-types:r1}Boolean",
+               "value" : "true",
+               "type" : "Literal"
             }
          }, {
             "name" : "ReportSignsAndSymptomsOfCovid19",
@@ -2549,6 +2738,153 @@
                } ]
             }
          }, {
+            "name" : "PatientReportedAssessmentsAndOutcomes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "name" : "Verified",
+               "libraryName" : "C3F",
+               "type" : "FunctionRef",
+               "operand" : [ {
+                  "name" : "ObservationLookBack",
+                  "libraryName" : "C3F",
+                  "type" : "FunctionRef",
+                  "operand" : [ {
+                     "dataType" : "{http://hl7.org/fhir}Observation",
+                     "codeProperty" : "code",
+                     "type" : "Retrieve",
+                     "codes" : {
+                        "name" : "COVID-19 Patient-reported assessments",
+                        "type" : "ValueSetRef"
+                     }
+                  }, {
+                     "value" : 1,
+                     "unit" : "year",
+                     "type" : "Quantity"
+                  } ]
+               } ]
+            }
+         }, {
+            "name" : "ReportPatientReportedAssessmentsAndOutcomes",
+            "context" : "Patient",
+            "accessLevel" : "Public",
+            "expression" : {
+               "type" : "Query",
+               "source" : [ {
+                  "alias" : "S",
+                  "expression" : {
+                     "name" : "PatientReportedAssessmentsAndOutcomes",
+                     "type" : "ExpressionRef"
+                  }
+               } ],
+               "relationship" : [ ],
+               "return" : {
+                  "expression" : {
+                     "type" : "Tuple",
+                     "element" : [ {
+                        "name" : "Name",
+                        "value" : {
+                           "name" : "ConceptTextWithRange",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "path" : "code",
+                              "scope" : "S",
+                              "type" : "Property"
+                           } ]
+                        }
+                     }, {
+                        "name" : "Result",
+                        "value" : {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "name" : "QuantityText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "scope" : "S",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}Quantity",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           }, {
+                              "path" : "value",
+                              "type" : "Property",
+                              "source" : {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "scope" : "S",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}string",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              }
+                           } ]
+                        }
+                     }, {
+                        "name" : "Interpretation",
+                        "value" : {
+                           "type" : "Coalesce",
+                           "operand" : [ {
+                              "name" : "ConceptText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "type" : "First",
+                                 "source" : {
+                                    "path" : "interpretation",
+                                    "scope" : "S",
+                                    "type" : "Property"
+                                 }
+                              } ]
+                           }, {
+                              "name" : "ConceptText",
+                              "type" : "FunctionRef",
+                              "operand" : [ {
+                                 "strict" : false,
+                                 "type" : "As",
+                                 "operand" : {
+                                    "path" : "value",
+                                    "scope" : "S",
+                                    "type" : "Property"
+                                 },
+                                 "asTypeSpecifier" : {
+                                    "name" : "{http://hl7.org/fhir}CodeableConcept",
+                                    "type" : "NamedTypeSpecifier"
+                                 }
+                              } ]
+                           } ]
+                        }
+                     }, {
+                        "name" : "Date",
+                        "value" : {
+                           "name" : "ObservationDate",
+                           "type" : "FunctionRef",
+                           "operand" : [ {
+                              "name" : "S",
+                              "type" : "AliasRef"
+                           } ]
+                        }
+                     } ]
+                  }
+               },
+               "sort" : {
+                  "by" : [ {
+                     "direction" : "desc",
+                     "path" : "Date",
+                     "type" : "ByColumn"
+                  } ]
+               }
+            }
+         }, {
             "name" : "Summary",
             "context" : "Patient",
             "accessLevel" : "Public",
@@ -2720,6 +3056,12 @@
                               }
                            }
                         }
+                     }, {
+                        "name" : "MeetsInclusionCriteria",
+                        "value" : {
+                           "name" : "MeetsInclusionCriteria",
+                           "type" : "ExpressionRef"
+                        }
                      } ]
                   }
                }, {
@@ -2745,6 +3087,12 @@
                   "value" : {
                      "type" : "Tuple",
                      "element" : [ {
+                        "name" : "RiskAssessmentRelevantToCovidManagement",
+                        "value" : {
+                           "name" : "ReportRiskAssessmentRelevantToCovidManagement",
+                           "type" : "ExpressionRef"
+                        }
+                     }, {
                         "name" : "LabResultAssessments",
                         "value" : {
                            "name" : "ReportLabResultAssessments",
@@ -2781,15 +3129,10 @@
                   "value" : {
                      "type" : "Tuple",
                      "element" : [ {
-                        "name" : "RiskAssessmentRelevantToCovidManagement",
-                        "value" : {
-                           "name" : "ReportRiskAssessmentRelevantToCovidManagement",
-                           "type" : "ExpressionRef"
-                        }
-                     }, {
                         "name" : "PatientReportedAssessmentsAndOutcomes",
                         "value" : {
-                           "type" : "Null"
+                           "name" : "ReportPatientReportedAssessmentsAndOutcomes",
+                           "type" : "ExpressionRef"
                         }
                      }, {
                         "name" : "PatientCenteredSocialNeeds",

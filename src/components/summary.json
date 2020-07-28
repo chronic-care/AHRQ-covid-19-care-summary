@@ -122,6 +122,39 @@
   ],
   "DiagnosticTests": [
     {
+      "name": "Risk Assessment Relevant to COVID-19 Management",
+      "dataKey": "RiskAssessmentRelevantToCovidManagement",
+      "dataKeySource": "DiagnosticTests",
+      "info": [
+        {
+          "type": "elements",
+          "description": "Risk Screenings Relevant to COVID-19 Management queries the following elements:",
+          "elements": [
+            {
+              "name": "Risk screenings relevant to COVID-19 management",
+              "status": "final or amended",
+              "lookback": "1 year"
+            }
+          ]
+        }
+      ],
+      "tables": [
+        {
+          "headers": {
+            "Name": "Name",
+            "Score": { "key": "Score", "formatter": "quantityFormat" },
+            "Date": { "key": "Date", "formatter": "datishFormat" }
+          },
+          "flags": [
+            {
+              "flag": "always",
+              "flagText": "COVID-19 risk screenings"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "Laboratory Results",
       "dataKey": "LabResultAssessments",
       "dataKeySource": "DiagnosticTests",
@@ -241,39 +274,6 @@
   ],
   "RiskConsiderations": [
     {
-      "name": "Risk Assessment Relevant to COVID-19 Management",
-      "dataKey": "RiskAssessmentRelevantToCovidManagement",
-      "dataKeySource": "RiskConsiderations",
-      "info": [
-        {
-          "type": "elements",
-          "description": "Risk Screenings Relevant to COVID-19 Management queries the following elements:",
-          "elements": [
-            {
-              "name": "Risk screenings relevant to COVID-19 management",
-              "status": "final or amended",
-              "lookback": "1 year"
-            }
-          ]
-        }
-      ],
-      "tables": [
-        {
-          "headers": {
-            "Name": "Name",
-            "Score": { "key": "Score", "formatter": "quantityFormat" },
-            "Date": { "key": "Date", "formatter": "datishFormat" }
-          },
-          "flags": [
-            {
-              "flag": "always",
-              "flagText": "COVID-19 risk screenings"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "name": "Patient Reported Assessments & Outcomes",
       "dataKey": "PatientReportedAssessmentsAndOutcomes",
       "dataKeySource": "RiskConsiderations",
@@ -295,6 +295,7 @@
           "headers": {
             "Name": "Name",
             "Result": { "key": "Result", "formatter": "quantityFormat" },
+            "Interpretation": "Interpretation",
             "Date": { "key": "Date", "formatter": "datishFormat" }
           }
         }

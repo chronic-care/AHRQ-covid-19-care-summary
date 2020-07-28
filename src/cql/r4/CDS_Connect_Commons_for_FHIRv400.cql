@@ -529,9 +529,9 @@ define function GoalLookBack(GoalList List<Goal>, LookBack System.Quantity):
     let LookBackInterval: Interval[Now() - LookBack, Now()],
     StartDate: (G.start as FHIR.date).value,
     StatusDate: G.statusDate.value,
-    TargetDates: (G.target) T return (T.due as FHIR.date).value,
-    TargetQuantities: (G.target) T return FHIRHelpers.ToQuantity(T.due as FHIR.Duration)
+    TargetDates: (G.target) T return (T.due as FHIR.date).value
+//    TargetQuantities: (G.target) T return FHIRHelpers.ToQuantity(T.due as FHIR.Duration)
     where StartDate in LookBackInterval
       or StatusDate in LookBackInterval
       or exists(TargetDates TD where TD in LookBackInterval)
-      or exists(TargetQuantities TQ where (StartDate + TQ) in LookBackInterval)
+//      or exists(TargetQuantities TQ where (StartDate + TQ) in LookBackInterval)

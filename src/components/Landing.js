@@ -176,12 +176,10 @@ export default class Landing extends Component {
     const summary = this.state.result.Summary;
     const { sectionFlags, flaggedCount } = this.state;
     const numMedicalHistoryEntries = sumit(summary.PertinentMedicalHistory || {});
-    const numAssessmentEntries = sumit(summary.ScreeningAssessments || {});
+    const numDiagnosticTestEntries = sumit(summary.DiagnosticTests || {});
     const numTreatmentsEntries = sumit(summary.HistoricalTreatments || {});
-    const numRiskEntries =
-      sumit(summary.RiskConsiderations || {}) +
-      sumit(summary.MiscellaneousItems || {}); // TODO: update when CQL updates
-    const totalEntries = numMedicalHistoryEntries + numAssessmentEntries + numTreatmentsEntries + numRiskEntries;
+    const numRiskEntries = sumit(summary.RiskConsiderations || {});
+    const totalEntries = numMedicalHistoryEntries + numDiagnosticTestEntries + numTreatmentsEntries + numRiskEntries;
 
     return (
       <div className="landing">
@@ -202,7 +200,7 @@ export default class Landing extends Component {
           collector={this.state.collector}
           result={this.state.result}
           numMedicalHistoryEntries={numMedicalHistoryEntries}
-          numAssessmentEntries={numAssessmentEntries}
+          numDiagnosticTestEntries={numDiagnosticTestEntries}
           numTreatmentsEntries={numTreatmentsEntries}
           numRiskEntries={numRiskEntries}
         />
