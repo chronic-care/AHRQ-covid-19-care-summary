@@ -16,7 +16,7 @@ Once the necessary FHIR data has been retrieved from the EHR, the open source [C
 
 ### To build and run in development:
 
-1. Install [Node.js](https://nodejs.org/en/download/) (LTS edition, currently 12.x)
+1. Install [Node.js](https://nodejs.org/en/download/) (LTS edition, currently 12.x)  or use [NVM](https://github.com/nvm-sh/nvm)
 2. Install [Yarn](https://yarnpkg.com/en/docs/install) (1.3.x or above)
 3. Install dependencies by executing `yarn` from the project's root directory
 4. If you have a SMART-on-FHIR client ID, edit `public/launch-context.json` to specify it
